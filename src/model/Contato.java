@@ -1,3 +1,4 @@
+package model;
 
 public class Contato {
 	private int codigo;

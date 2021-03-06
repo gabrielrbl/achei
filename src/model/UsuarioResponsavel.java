@@ -1,3 +1,4 @@
+package model;
 
 public class UsuarioResponsavel {
 	private int codigo;

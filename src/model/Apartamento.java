@@ -1,5 +1,6 @@
+package model;
 
-public class Apartamento {
+public class Apartamento extends Imovel {
 	private int codigo;
 	private String bloco;
 	private int andar;
