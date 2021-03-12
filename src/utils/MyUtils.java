@@ -12,36 +12,27 @@ public class MyUtils {
 	public static final String ATT_NAME_CONNECTION = "ATTRIBUTE_FOR_CONNECTION";
 	private static final String ATT_NAME_USER_NAME = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
 
-	// Store Connection in request attribute.
-	// (Information stored only exist during requests)
 	public static void storeConnection(ServletRequest request, Connection conn) {
 		request.setAttribute(ATT_NAME_CONNECTION, conn);
 	}
-
-	// Get the Connection object has been stored in one attribute of the request.
 	public static Connection getStoredConnection(ServletRequest request) {
 		Connection conn = (Connection) request.getAttribute(ATT_NAME_CONNECTION);
 		return conn;
 	}
 
-	// Store user info in Session.
 	public static void storeLoginedUser(HttpSession session, Usuario usuarioLogado) {
-    // On the JSP can access ${usuarioLogado}
 		session.setAttribute("usuarioLogado", usuarioLogado);
 	}
 
-	// Get the user information stored in the session.
 	public static Usuario getLoginedUser(HttpSession session) {
 		Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
 		return usuarioLogado;
 	}
 
-	// Store info in Cookie
 	public static void storeUserCookie(HttpServletResponse response, Usuario usuario) {
-		System.out.println("Store user cookie");
+		System.out.println("Guardando cookie de usuário...");
 		Cookie cookieEmail = new Cookie(ATT_NAME_USER_NAME, usuario.getEmail());
 
-		// 1 day (Convert to seconds)
 		cookieEmail.setMaxAge(24 * 60 * 60);
     	response.addCookie(cookieEmail);
 	}
@@ -58,11 +49,9 @@ public class MyUtils {
 		return null;
 	}
 
-  // Delete cookie.
 	public static void deleteUserCookie(HttpServletResponse response) {
 		Cookie cookieEmail = new Cookie(ATT_NAME_USER_NAME, null);
 
-		// 0 seconds (Expires immediately)
 		cookieEmail.setMaxAge(0);
 		response.addCookie(cookieEmail);
 	}

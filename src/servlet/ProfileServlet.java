@@ -1,21 +1,17 @@
 package servlet;
 
 import java.io.IOException;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import utils.MyUtils;
 import model.Usuario;
 
-@WebServlet(urlPatterns = {"/userInfo"})
-public class UserInfoServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/profile"})
+public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public UserInfoServlet() {
+	public ProfileServlet() {
 		super();
 	}
 
@@ -23,21 +19,16 @@ public class UserInfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    HttpSession session = request.getSession();
 
-	    // Check User has logged on
 	    Usuario usuarioLogado = MyUtils.getLoginedUser(session);
 	
-	    // Not logged in
 		if (usuarioLogado == null) {
-	      // Redirect to login page.
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
 	    }
 	
-	    // Store info in request attribute
 	    request.setAttribute("usuario", usuarioLogado);
-	
-	    // Logined, forward to /WEB-INF/views/userInfoView.jsp
-	    RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
+	    
+	    RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/profile.jsp");
 	    dispatcher.forward(request, response);
 	}
 

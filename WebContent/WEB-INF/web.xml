@@ -3,7 +3,6 @@
   <display-name>Achei</display-name>
   <welcome-file-list>
     <welcome-file>home</welcome-file>
-    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   <filter-mapping>
     <filter-name>jdbcFilter</filter-name>

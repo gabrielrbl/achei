@@ -12,6 +12,7 @@ public class Usuario {
 	public Usuario() { }
 		
 	public Usuario(Integer idusuario, String nome, String cpf, String email, String senha, String observacao, boolean ativo) {
+		super();
 		this.idusuario = idusuario;
 		this.nome = nome;
 		this.cpf = cpf;
@@ -75,6 +76,11 @@ public class Usuario {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+	
+	@Override
+	public String toString() {
+		return nome;
 	}
 
 	public void cadastrar() {

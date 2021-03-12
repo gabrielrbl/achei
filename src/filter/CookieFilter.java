@@ -32,10 +32,8 @@ public class CookieFilter implements Filter {
 			return;
 		}
 
-		// Connection was created in JDBCFilter.
 		Connection conn = MyUtils.getStoredConnection(request);
 
-    // Flag check cookie
 		String checked = (String) session.getAttribute("COOKIE_CHECKED");
 		if (checked == null && conn != null) {
 			String email = MyUtils.getUserNameInCookie(req);
@@ -46,7 +44,6 @@ public class CookieFilter implements Filter {
 				e.printStackTrace();
 			}
 
-			// Mark checked.
 			session.setAttribute("COOKIE_CHECKED", "CHECKED");
 		}
 		chain.doFilter(request, response);

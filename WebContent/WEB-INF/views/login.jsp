@@ -21,7 +21,7 @@
 
 	<div class="form-group">
 		<label class="custom-control custom-checkbox">
-		<input type="checkbox" class="custom-control-input">
+		<input type="checkbox" class="custom-control-input" name="lembrarMe">
 		<span class="custom-control-indicator"></span>
 		<span class="custom-control-description">Lembrar-me</span>
 		</label>

@@ -1,12 +1,13 @@
 package servlet;
 
 import java.io.IOException;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
+import java.util.*;
+import model.Imovel;
+import java.sql.*;
+import utils.*;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 
 @WebServlet(urlPatterns = {"/home"})
 public class HomeServlet extends HttpServlet {
@@ -18,9 +19,22 @@ public class HomeServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Forward to /WEB-INF/views/homeView.jsp
-		// (Users can not access directly into JSP pages placed in WEB-INF)
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/homeView.jsp");
+	    Connection conn = MyUtils.getStoredConnection(request);
+	    
+	    String errorString = null;
+		List<Imovel> list = null;
+
+	    try {
+	    	list = DBUtils.queryImoveis(conn);
+	    } catch (SQLException e) {
+	    	e.printStackTrace();
+	    	errorString = e.getMessage();
+	    }
+
+	    request.setAttribute("errorString", errorString);
+	    request.setAttribute("imovelList", list);
+
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp");
 
 		dispatcher.forward(request, response);
 	}

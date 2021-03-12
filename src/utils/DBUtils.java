@@ -1,8 +1,8 @@
 package utils;
 
 import java.sql.*;
-//import java.util.*;
-import model.Usuario;
+import java.util.*;
+import model.*;
 
 public class DBUtils {
 	public static Usuario encontrarUsuario(Connection conn, String email, String senha) throws SQLException {
@@ -49,27 +49,38 @@ public class DBUtils {
 	    return null;
 	}
 
-/*	public static List<Product> queryProduct(Connection conn) throws SQLException {
-		String sql = "Select a.Code, a.Name, a.Price from Product a ";
+	public static List<Imovel> queryImoveis(Connection conn) throws SQLException {
+		String sql = "SELECT * FROM IMOVEL";
 
 	    PreparedStatement pstm = conn.prepareStatement(sql);
 	
 	    ResultSet rs = pstm.executeQuery();
-	    List<Product> list = new ArrayList<Product>();
+	    List<Imovel> list = new ArrayList<Imovel>();
+
 	    while (rs.next()) {
-	    	String code = rs.getString("Code");
-	    	String name = rs.getString("Name");
-	    	float price = rs.getFloat("Price");
-	    	Product product = new Product();
-	    	product.setCode(code);
-	    	product.setName(name);
-	    	product.setPrice(price);
-	    	list.add(product);
+	    	Imovel imovel = new Imovel();
+	    	imovel.setIdimovel(rs.getInt("idimovel"));
+	    	imovel.setTipo(rs.getString("tipo"));
+	    	imovel.setDormitorios(rs.getInt("dormitorios"));
+	    	imovel.setBanheiros(rs.getInt("banheiros"));
+	    	imovel.setSuites(rs.getInt("suites"));
+	    	imovel.setVagasGaragem(rs.getInt("vagasgaragem"));
+	    	imovel.setAreaConstruida(rs.getDouble("areaconstruida"));
+	    	imovel.setAreaTotal(rs.getDouble("areatotal"));
+	    	imovel.setValor(rs.getDouble("valor"));
+	    	imovel.setDescricao(rs.getString("descricao"));
+	    	imovel.setCidade(rs.getString("cidade"));
+	    	imovel.setBairro(rs.getString("bairro"));
+	    	imovel.setRua(rs.getString("rua"));
+	    	imovel.setNumero(rs.getString("numero"));
+	    	imovel.setObservacao(rs.getString("observacao"));
+	    	imovel.setStatus(rs.getString("status"));
+	    	list.add(imovel);
 	    }
 	    return list;
 	}
 
-  public static Product findProduct(Connection conn, String code) throws SQLException {
+  /*public static Product findProduct(Connection conn, String code) throws SQLException {
     String sql = "Select a.Code, a.Name, a.Price from Product a where a.Code=?";
 
     PreparedStatement pstm = conn.prepareStatement(sql);

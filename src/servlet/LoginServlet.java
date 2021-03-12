@@ -1,12 +1,11 @@
 package servlet;
 
 import java.io.IOException;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+import model.Usuario;
+import utils.MyUtils;
 
 @WebServlet(urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
@@ -18,9 +17,16 @@ public class LoginServlet extends HttpServlet {
 
   	@Override
   	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    // Forward to /WEB-INF/views/loginView.jsp
-    // (Users can not access directly into JSP pages placed in WEB-INF)
-	  	RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
+	    HttpSession session = request.getSession();
+
+	    Usuario usuarioLogado = MyUtils.getLoginedUser(session);
+
+		if (usuarioLogado != null) {
+			response.sendRedirect(request.getContextPath() + "/home");
+			return;
+	    }
+
+	  	RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/login.jsp");
 
 	  	dispatcher.forward(request, response);
   	}
