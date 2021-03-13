@@ -22,17 +22,17 @@ public class HomeServlet extends HttpServlet {
 	    Connection conn = MyUtils.getStoredConnection(request);
 	    
 	    String errorString = null;
-		List<Imovel> list = null;
+		List<Imovel> imovel = null;
 
 	    try {
-	    	list = DBUtils.queryImoveis(conn);
+	    	imovel = DBUtils.queryImoveis(conn);
 	    } catch (SQLException e) {
 	    	e.printStackTrace();
 	    	errorString = e.getMessage();
 	    }
 
 	    request.setAttribute("errorString", errorString);
-	    request.setAttribute("imovelList", list);
+	    request.setAttribute("imovelList", imovel);
 
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp");
 

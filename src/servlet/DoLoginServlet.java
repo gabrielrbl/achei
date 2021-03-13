@@ -57,12 +57,7 @@ public class DoLoginServlet extends HttpServlet {
 		}
 
 		if(hasError) {
-			usuario = new Usuario();
-			usuario.setEmail(email);
-			usuario.setSenha(senha);
-
 			request.setAttribute("errorString", errorString);
-			request.setAttribute("usuario", usuario);
 
 			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/login.jsp");
 
@@ -77,7 +72,7 @@ public class DoLoginServlet extends HttpServlet {
 				MyUtils.deleteUserCookie(response);
 			}
 
-			response.sendRedirect(request.getContextPath() + "/profile");
+			response.sendRedirect(request.getContextPath() + "/home");
 		}
 	}
 }

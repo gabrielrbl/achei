@@ -1,7 +1,10 @@
 package model;
 
+import java.util.*;
+
 public class Imovel {
 	private Integer idimovel;
+	private List<ImovelFoto> fotos;
 	private String tipo;
 	private Integer dormitorios;
 	private Integer banheiros;
@@ -20,11 +23,14 @@ public class Imovel {
 	
 	public Imovel() { }
 	
-	public Imovel(Integer idimovel, String tipo, Integer dormitorios, Integer banheiros, Integer suites,
-			Integer vagasGaragem, Double areaConstruida, Double areaTotal, Double valor, String descricao,
-			String cidade, String bairro, String rua, String numero, String observacao, String status) {
+
+	public Imovel(Integer idimovel, List<ImovelFoto> fotos, String tipo, Integer dormitorios, Integer banheiros,
+			Integer suites, Integer vagasGaragem, Double areaConstruida, Double areaTotal, Double valor,
+			String descricao, String cidade, String bairro, String rua, String numero, String observacao,
+			String status) {
 		super();
 		this.idimovel = idimovel;
+		this.fotos = fotos;
 		this.tipo = tipo;
 		this.dormitorios = dormitorios;
 		this.banheiros = banheiros;
@@ -42,6 +48,7 @@ public class Imovel {
 		this.status = status;
 	}
 
+
 	public Integer getIdimovel() {
 		return idimovel;
 	}
@@ -49,6 +56,17 @@ public class Imovel {
 	public void setIdimovel(Integer idimovel) {
 		this.idimovel = idimovel;
 	}
+
+
+	public List<ImovelFoto> getFotos() {
+		return fotos;
+	}
+
+
+	public void setFotos(List<ImovelFoto> fotos) {
+		this.fotos = fotos;
+	}
+
 
 	public String getTipo() {
 		return tipo;

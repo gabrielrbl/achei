@@ -48,18 +48,75 @@ public class DBUtils {
 		}
 	    return null;
 	}
+	
+	public static <T extends Imovel> Apartamento queryFindApartamento(Connection conn, Imovel imovel) throws SQLException {
+		String sql = "SELECT * FROM APARTAMENTO WHERE IDIMOVEL = ? LIMIT 1";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setInt(1, imovel.getIdimovel());
+		ResultSet rs = pstm.executeQuery();
 
+		Apartamento ap = new Apartamento();
+		
+		while (rs.next()) {
+			ap.setIdapartamento(rs.getInt("idapartamento"));
+			ap.setImovel(imovel);
+			ap.setBloco(rs.getString("bloco"));
+			ap.setAndar(rs.getInt("andar"));
+			ap.setNumeroAp(rs.getInt("numeroAp"));
+			ap.setSacada(rs.getBoolean("sacada"));
+		}
+		return ap;
+	}
+	
+	public static <T extends Imovel> Casa queryFindCasa(Connection conn, Imovel imovel) throws SQLException {
+		String sql = "SELECT * FROM CASA WHERE IDIMOVEL = ? LIMIT 1";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setInt(1, imovel.getIdimovel());
+		ResultSet rs = pstm.executeQuery();
+		
+		Casa ca = new Casa();
+		
+		while (rs.next()) {
+			ca.setIdcasa(rs.getInt("idcasa"));
+			ca.setImovel(imovel);
+			ca.setLote(rs.getString("lote"));
+			ca.setQuadra(rs.getString("quadra"));
+		}
+		return ca;
+	}
+	
+	public static List<ImovelFoto> queryImovelFoto(Connection conn, Imovel imovel) throws SQLException {
+		String sql = "SELECT * FROM IMOVELFOTO WHERE IDIMOVEL = "+ imovel.getIdimovel() +"";
+		
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    ResultSet rs = pstm.executeQuery();
+	    
+	    List<ImovelFoto> fotos = new ArrayList<ImovelFoto>();
+
+	    while (rs.next()) {
+	    	ImovelFoto imf = new ImovelFoto();
+	    	imf.setIdimovelfoto(rs.getInt("idimovelfoto"));
+	    	imf.setImovel(imovel);
+	    	imf.setFoto(rs.getString("foto"));
+	    	fotos.add(imf);
+	    }
+		return fotos;
+	}
+	
 	public static List<Imovel> queryImoveis(Connection conn) throws SQLException {
 		String sql = "SELECT * FROM IMOVEL";
 
 	    PreparedStatement pstm = conn.prepareStatement(sql);
-	
 	    ResultSet rs = pstm.executeQuery();
-	    List<Imovel> list = new ArrayList<Imovel>();
+	    List<Imovel> imoveis = new ArrayList<Imovel>();
+	    
 
 	    while (rs.next()) {
 	    	Imovel imovel = new Imovel();
 	    	imovel.setIdimovel(rs.getInt("idimovel"));
+	    	imovel.setFotos(queryImovelFoto(conn, imovel));
 	    	imovel.setTipo(rs.getString("tipo"));
 	    	imovel.setDormitorios(rs.getInt("dormitorios"));
 	    	imovel.setBanheiros(rs.getInt("banheiros"));
@@ -75,9 +132,29 @@ public class DBUtils {
 	    	imovel.setNumero(rs.getString("numero"));
 	    	imovel.setObservacao(rs.getString("observacao"));
 	    	imovel.setStatus(rs.getString("status"));
-	    	list.add(imovel);
+	    	
+	    	switch (rs.getString("tipo")) {
+			case "AP":
+				try {
+					imoveis.add(queryFindApartamento(conn, imovel));
+				} catch (SQLException e) {
+			    	e.printStackTrace();
+			    	e.getMessage();
+				}
+				break;
+			case "CA":
+				try {
+					imoveis.add(queryFindCasa(conn, imovel));
+				} catch (SQLException e) {
+			    	e.printStackTrace();
+			    	e.getMessage();
+				}
+				break;
+			default:
+				break;
+			}
 	    }
-	    return list;
+	    return imoveis;
 	}
 
   /*public static Product findProduct(Connection conn, String code) throws SQLException {
