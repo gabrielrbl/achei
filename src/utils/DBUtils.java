@@ -49,6 +49,193 @@ public class DBUtils {
 	    return null;
 	}
 	
+	
+	
+	
+	
+	
+	
+	public static Venda queryFindVenda(Connection conn, Apartamento apartamento) throws SQLException {
+		String sql = "SELECT * FROM VENDA WHERE IDAPARTAMENTO = "+ apartamento.getIdapartamento() +"";
+		
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    ResultSet rs = pstm.executeQuery();
+
+    	Venda venda = new Venda();
+	    
+	    while (rs.next()) {
+	    	venda.setIdvenda(rs.getInt("idvenda"));
+	    	venda.setImovel(apartamento);
+	    	venda.setDataPagamentoVenda(rs.getDate("datapagamentovenda"));
+	    	venda.setDataVendaFinalizada(rs.getDate("datavendafinalizada"));
+	    	venda.setDataVendaIniciada(rs.getDate("datavendainiciada"));
+	    	venda.setFormaPagamento(rs.getString("formapagamento"));
+	    	venda.setValorAnual(rs.getDouble("valoranual"));
+	    	venda.setValorMensal(rs.getDouble("valormensal"));
+	    }
+		return venda;
+	}	
+	
+	public static Venda queryFindVenda(Connection conn, Casa casa) throws SQLException {
+		String sql = "SELECT * FROM VENDA WHERE IDCASA = "+ casa.getIdcasa() +"";
+		
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    ResultSet rs = pstm.executeQuery();
+
+    	Venda venda = new Venda();
+	    
+	    while (rs.next()) {
+	    	venda.setIdvenda(rs.getInt("idvenda"));
+	    	venda.setImovel(casa);
+	    	venda.setDataPagamentoVenda(rs.getDate("datapagamentovenda"));
+	    	venda.setDataVendaFinalizada(rs.getDate("datavendafinalizada"));
+	    	venda.setDataVendaIniciada(rs.getDate("datavendainiciada"));
+	    	venda.setFormaPagamento(rs.getString("formapagamento"));
+	    	venda.setValorAnual(rs.getDouble("valoranual"));
+	    	venda.setValorMensal(rs.getDouble("valormensal"));
+	    }
+		return venda;
+	}
+	
+	
+	
+	public static Locacao queryFindLocacao(Connection conn, Apartamento apartamento) throws SQLException {
+		String sql = "SELECT * FROM LOCACAO WHERE IDAPARTAMENTO = "+ apartamento.getIdapartamento() +"";
+		
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    ResultSet rs = pstm.executeQuery();
+
+    	Locacao locacao = new Locacao();
+	    
+	    while (rs.next()) {
+	    	locacao.setIdlocacao(rs.getInt("idlocacao"));
+	    	locacao.setImovel(apartamento);
+	    	locacao.setDataLocacaoFim(rs.getDate("datalocacaofim"));
+	    	System.out.println(locacao.getDataLocacaoFim());
+	    	locacao.setDataLocacaoInicio(rs.getDate("datalocacaoinicio"));
+	    	locacao.setFormaPagamento(rs.getString("formapagamento"));
+	    	locacao.setValorAnual(rs.getDouble("valoranual"));
+	    	locacao.setValorMensal(rs.getDouble("valormensal"));
+	    }
+		return locacao;
+	}
+	
+	public static Locacao queryFindLocacao(Connection conn, Casa casa) throws SQLException {
+		String sql = "SELECT * FROM LOCACAO WHERE IDAPARTAMENTO = "+ casa.getIdcasa() +"";
+		
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    ResultSet rs = pstm.executeQuery();
+
+    	Locacao locacao = new Locacao();
+	    
+	    while (rs.next()) {
+	    	locacao.setIdlocacao(rs.getInt("idlocacao"));
+	    	locacao.setImovel(casa);
+	    	locacao.setDataLocacaoFim(rs.getDate("datalocacaofim"));
+	    	locacao.setDataLocacaoInicio(rs.getDate("datalocacaoinicio"));
+	    	locacao.setFormaPagamento(rs.getString("formapagamento"));
+	    	locacao.setValorAnual(rs.getDouble("valoranual"));
+	    	locacao.setValorMensal(rs.getDouble("valormensal"));
+	    }
+		return locacao;
+	}
+	
+	
+	public static List<Object> queryImoveisLocacaoVenda(Connection conn, String tipoNegocio, String tipoImovel) throws SQLException {
+		String sql = "SELECT * FROM IMOVEL";
+		
+		switch (tipoImovel) {
+		case "ap":
+			sql += " WHERE TIPO = \"AP\"";
+			break;
+		case "ca":
+			sql = " WHERE TIPO = \"CA\"";
+			break;
+		default:
+			break;
+		}
+		
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    ResultSet rs = pstm.executeQuery();
+	    List<Object> imoveis = new ArrayList<Object>();
+	    
+	    while (rs.next()) {
+	    	Imovel imovel = new Imovel();
+	    	imovel.setIdimovel(rs.getInt("idimovel"));
+	    	imovel.setFotos(queryImovelFoto(conn, imovel));
+	    	imovel.setTipo(rs.getString("tipo"));
+	    	imovel.setDormitorios(rs.getInt("dormitorios"));
+	    	imovel.setBanheiros(rs.getInt("banheiros"));
+	    	imovel.setSuites(rs.getInt("suites"));
+	    	imovel.setVagasGaragem(rs.getInt("vagasgaragem"));
+	    	imovel.setAreaConstruida(rs.getDouble("areaconstruida"));
+	    	imovel.setAreaTotal(rs.getDouble("areatotal"));
+	    	imovel.setValor(rs.getDouble("valor"));
+	    	imovel.setDescricao(rs.getString("descricao"));
+	    	imovel.setCidade(rs.getString("cidade"));
+	    	imovel.setBairro(rs.getString("bairro"));
+	    	imovel.setRua(rs.getString("rua"));
+	    	imovel.setNumero(rs.getString("numero"));
+	    	imovel.setObservacao(rs.getString("observacao"));
+	    	imovel.setStatus(rs.getString("status"));
+	    	
+	    	switch (rs.getString("tipo")) {
+			case "AP":
+				try {
+					Apartamento apartamento = queryFindApartamento(conn, imovel);
+					switch (tipoNegocio) {
+					case "comprar":
+						imoveis.add(queryFindVenda(conn, apartamento));
+						break;
+					case "alugar":
+						imoveis.add(queryFindLocacao(conn, apartamento));
+						break;
+					default:
+						break;
+					}
+				} catch (SQLException e) {
+			    	e.printStackTrace();
+			    	e.getMessage();
+				}
+				break;
+			case "CA":
+				try {
+					Casa casa = queryFindCasa(conn, imovel);
+					switch (tipoNegocio) {
+					case "comprar":
+						imoveis.add(queryFindVenda(conn, casa));
+						break;
+					case "alugar":
+						imoveis.add(queryFindLocacao(conn, casa));
+						break;
+					default:
+						break;
+					}
+				} catch (SQLException e) {
+			    	e.printStackTrace();
+			    	e.getMessage();
+				}
+				break;
+			}
+	    }
+	    return imoveis;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static <T extends Imovel> Apartamento queryFindApartamento(Connection conn, Imovel imovel) throws SQLException {
 		String sql = "SELECT * FROM APARTAMENTO WHERE IDIMOVEL = ? LIMIT 1";
 		
@@ -112,7 +299,6 @@ public class DBUtils {
 	    ResultSet rs = pstm.executeQuery();
 	    List<Imovel> imoveis = new ArrayList<Imovel>();
 	    
-
 	    while (rs.next()) {
 	    	Imovel imovel = new Imovel();
 	    	imovel.setIdimovel(rs.getInt("idimovel"));

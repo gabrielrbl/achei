@@ -7,7 +7,7 @@ import jakarta.servlet.http.*;
 import model.Usuario;
 import utils.MyUtils;
 
-@WebServlet(urlPatterns = {"/login"})
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

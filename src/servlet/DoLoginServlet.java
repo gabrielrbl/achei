@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import utils.*;
 import model.Usuario;
 
-@WebServlet(urlPatterns = {"/doLogin"})
+@WebServlet("/doLogin")
 public class DoLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

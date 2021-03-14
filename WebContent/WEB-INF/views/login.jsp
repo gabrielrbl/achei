@@ -5,29 +5,19 @@
 	<p class="error">${errorString}</p>
 
 	<form method="POST" action="doLogin">
-  		<div class="form-group row">
-    		<label for="email" class="col-xs-2 col-form-label">E-mail</label>
-    		<div class="col-xs-5">
-      			<input type="text" class="form-control" id="email" name="email" value="${usuario.email}" />
-  			</div>
+  		<div class="form-group">
+    		<label for="email">E-mail</label>
+   			<input type="email" class="form-control" id="email" name="email" value="${usuario.email}" />
 		</div>
-
-	<div class="form-group row">
-  		<label for="senha" class="col-xs-2 col-form-label">Senha</label>
-  		<div class="col-xs-5">
-    		<input type="password" class="form-control" id="senha" name="senha" value="${usuario.senha}">
-  		</div>
-	</div>
-
-	<div class="form-group">
-		<label class="custom-control custom-checkbox">
-		<input type="checkbox" class="custom-control-input" name="lembrarMe">
-		<span class="custom-control-indicator"></span>
-		<span class="custom-control-description">Lembrar-me</span>
-		</label>
- 	</div>
-
-	<input type="submit" class="btn btn-submit" value="Entrar" />
-	<a href="${pageContext.request.contextPath}/">Cancelar</a>
+		<div class="form-group">
+	  		<label for="senha">Senha</label>
+	   		<input type="password" class="form-control" id="senha" name="senha" value="${usuario.senha}">
+		</div>
+		<div class="form-check">
+			<input type="checkbox" class="form-check-input" id="lembrarMe" name="lembrarMe">
+			<label class="form-check-label" for="lembrarMe">Lembrar-me</label>
+	 	</div>
+		<button type="submit" class="btn btn-primary">Entrar</button>
+		<a href="${pageContext.request.contextPath}/">Cancelar</a>
 	</form>
 </t:wrapper>

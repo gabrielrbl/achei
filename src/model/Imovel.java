@@ -22,7 +22,6 @@ public class Imovel {
 	private String status;
 	
 	public Imovel() { }
-	
 
 	public Imovel(Integer idimovel, List<ImovelFoto> fotos, String tipo, Integer dormitorios, Integer banheiros,
 			Integer suites, Integer vagasGaragem, Double areaConstruida, Double areaTotal, Double valor,
@@ -48,7 +47,6 @@ public class Imovel {
 		this.status = status;
 	}
 
-
 	public Integer getIdimovel() {
 		return idimovel;
 	}
@@ -57,16 +55,13 @@ public class Imovel {
 		this.idimovel = idimovel;
 	}
 
-
 	public List<ImovelFoto> getFotos() {
 		return fotos;
 	}
 
-
 	public void setFotos(List<ImovelFoto> fotos) {
 		this.fotos = fotos;
 	}
-
 
 	public String getTipo() {
 		return tipo;

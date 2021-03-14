@@ -9,7 +9,7 @@ import utils.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-@WebServlet(urlPatterns = {"/home"})
+@WebServlet("/home")
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class HomeServlet extends HttpServlet {
 	    request.setAttribute("errorString", errorString);
 	    request.setAttribute("imovelList", imovel);
 
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp");
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/home2.jsp");
 
 		dispatcher.forward(request, response);
 	}
