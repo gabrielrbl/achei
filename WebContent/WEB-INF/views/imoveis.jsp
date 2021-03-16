@@ -37,7 +37,7 @@
 				  		<c:set var="tipoNegocioClass" value="${im['class'].simpleName}" />
 					  	<div class="col-lg-6 col-md-6 mb-6">
 							<div class="card h-100">
-								<div id="carouselExampleIndicators-${imovel.idimovel}" class="carousel slide" data-ride="carousel">
+								<div id="carouselExampleIndicators-${imovel.idimovel}" class="carousel slide carousel-fade" data-ride="carousel">
 									<ol class="carousel-indicators">
 						  				<c:forEach var="foto" items="${imovel.fotos}" varStatus="loop">
 									  		<li data-target="#carouselExampleIndicators-${imovel.idimovel}" data-slide-to="${loop.index}" <c:if test="${loop.index == 0}">class="active"</c:if>></li>
@@ -52,15 +52,18 @@
 							  		</div>
 							  		<a class="carousel-control-prev" href="#carouselExampleIndicators-${imovel.idimovel}" role="button" data-slide="prev">
 								    	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-								    	<span class="sr-only">Previous</span>
+								    	<span class="sr-only">Anterior</span>
 								  	</a>
 								  	<a class="carousel-control-next" href="#carouselExampleIndicators-${imovel.idimovel}" role="button" data-slide="next">
 								   		<span class="carousel-control-next-icon" aria-hidden="true"></span>
-								    	<span class="sr-only">Next</span>
+								    	<span class="sr-only">Próximo</span>
 								 	</a>
 								</div>
-								${im.dataLocacaoFim}
 						      	<div class="card-body">
+						        	<c:choose>
+										<c:when test="${tipoNegocioClass == 'Locacao'}">ALUGUEL</c:when>
+										<c:when test="${tipoNegocioClass == 'Venda'}">VENDA</c:when>
+									</c:choose>
 						        	<h4 class="card-title">
 							        	<a href="#">
 								        	<c:choose>
@@ -69,17 +72,14 @@
 											</c:choose>
 										</a>
 									</h4>
-						        	<h5>R$ <c:out value="${imovel.valor}" /></h5>
-						        	<p class="card-text"><c:out value="${imovel.descricao}" /></p>
+									<c:if test="${!empty usuarioLogado}">
+						        		<h5>R$ <c:out value="${imovel.valor}" /></h5>
+						        		<p class="card-text"><c:out value="${imovel.descricao}" /></p>
+						        	</c:if>
 						      	</div>
 						      	<div class="card-footer">
 						        	<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-						        	<a href="#" class="btn btn-primary float-right">
-							        	<c:choose>
-											<c:when test="${tipoNegocioClass == 'Locacao'}">ALUGAR</c:when>
-											<c:when test="${tipoNegocioClass == 'Venda'}">COMPRAR</c:when>
-										</c:choose>
-									</a>
+						        	<a href="#" class="btn btn-primary float-right">+ DETALHES</a>
 						      	</div>
 							</div>
 						</div>

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class ConnectionUtils {
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {
-		return MySQLConnUtils.getMySQLConnection();
+		return PostgreSQLConnUtils.getPostgreSQLConnection();
 	}
 
 	public static void closeQuietly(Connection conn) {

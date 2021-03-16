@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Imovel {
 	private Integer idimovel;
+	private Usuario responsavel;
 	private List<ImovelFoto> fotos;
 	private String tipo;
 	private Integer dormitorios;
@@ -23,12 +24,12 @@ public class Imovel {
 	
 	public Imovel() { }
 
-	public Imovel(Integer idimovel, List<ImovelFoto> fotos, String tipo, Integer dormitorios, Integer banheiros,
-			Integer suites, Integer vagasGaragem, Double areaConstruida, Double areaTotal, Double valor,
-			String descricao, String cidade, String bairro, String rua, String numero, String observacao,
-			String status) {
+	public Imovel(Integer idimovel, Usuario responsavel, List<ImovelFoto> fotos, String tipo, Integer dormitorios, Integer banheiros,
+			Integer suites, Integer vagasGaragem, Double areaConstruida, Double areaTotal, Double valor, String descricao,
+			String cidade, String bairro, String rua, String numero, String observacao, String status) {
 		super();
 		this.idimovel = idimovel;
+		this.responsavel = responsavel;
 		this.fotos = fotos;
 		this.tipo = tipo;
 		this.dormitorios = dormitorios;
@@ -53,6 +54,14 @@ public class Imovel {
 
 	public void setIdimovel(Integer idimovel) {
 		this.idimovel = idimovel;
+	}
+
+	public Usuario getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(Usuario responsavel) {
+		this.responsavel = responsavel;
 	}
 
 	public List<ImovelFoto> getFotos() {

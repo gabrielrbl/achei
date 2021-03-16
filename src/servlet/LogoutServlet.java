@@ -4,6 +4,7 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import utils.MyUtils;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
@@ -15,13 +16,15 @@ public class LogoutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	request.getSession().invalidate();
-
-        response.sendRedirect(request.getContextPath() + "/");
+        doPost(request, response);
     }
  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.doGet(request, response);
+    	MyUtils.deleteUserCookie(response);
+    	
+    	request.getSession().invalidate();
+    	
+        response.sendRedirect(request.getContextPath() + "/");
     }
 }

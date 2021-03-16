@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="model.Imovel" project="Achei" file="/Achei/src/model/Imovel.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="459" width="138" x="335" y="460"/>    
+    <position height="-1" width="-1" x="95" y="679"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="model.Usuario" project="Achei" file="/Achei/src/model/Usuario.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="279" width="157" x="997" y="460"/>    
+    <position height="-1" width="-1" x="1344" y="629"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="model.Locacao" project="Achei" file="/Achei/src/model/Locacao.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="279" width="164" x="232" y="141"/>    
+    <position height="-1" width="-1" x="661" y="257"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="model.Casa" project="Achei" file="/Achei/src/model/Casa.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="135" width="94" x="268" y="959"/>    
+    <position height="-1" width="-1" x="975" y="1299"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="model.Venda" project="Achei" file="/Achei/src/model/Venda.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="279" width="159" x="436" y="141"/>    
+    <position height="-1" width="-1" x="995" y="541"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="model.UsuarioCliente" project="Achei" file="/Achei/src/model/UsuarioCliente.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="153" width="157" x="635" y="141"/>    
+    <position height="-1" width="-1" x="896" y="57"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="model.UsuarioResponsavel" project="Achei" 
     file="/Achei/src/model/UsuarioResponsavel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="189" width="178" x="832" y="141"/>    
+    <position height="-1" width="-1" x="1107" y="73"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="model.Apartamento" project="Achei" file="/Achei/src/model/Apartamento.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="171" width="106" x="402" y="959"/>    
+    <position height="-1" width="-1" x="1324" y="1143"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,37 +75,49 @@
   </class>  
   <class id="9" language="java" name="model.Contato" project="Achei" file="/Achei/src/model/Contato.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="207" width="104" x="1050" y="141"/>    
+    <position height="-1" width="-1" x="1278" y="140"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="10">    
+  <generalization id="10">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="11">    
     <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="11" name="usuario"/>      
-      <multiplicity id="12" minimum="0" maximum="1"/>    
+      <attribute id="12" name="usuario">        
+        <position height="0" width="0" x="269" y="30"/>      
+      </attribute>      
+      <multiplicity id="13" minimum="0" maximum="1">        
+        <position height="0" width="0" x="269" y="30"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="13">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
   <association id="14">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="15" name="imovel"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
+      <attribute id="15" name="imovel">        
+        <position height="0" width="0" x="-309" y="-10"/>      
+      </attribute>      
+      <multiplicity id="16" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-309" y="-10"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="17">    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="18" name="imovel"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
+      <attribute id="18" name="imovel">        
+        <position height="0" width="0" x="-309" y="-10"/>      
+      </attribute>      
+      <multiplicity id="19" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-309" y="-10"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

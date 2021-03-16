@@ -3,29 +3,39 @@ package servlet;
 import java.io.IOException;
 import jakarta.servlet.*;
 import java.util.*;
-import model.Imovel;
+import model.*;
+
 import java.sql.*;
 import utils.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-@WebServlet("/home")
-public class HomeServlet extends HttpServlet {
+@WebServlet("/userImoveis")
+public class ListImoveis extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public HomeServlet() {
+	public ListImoveis() {
 		super();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    Connection conn = MyUtils.getStoredConnection(request);
+	    HttpSession session = request.getSession();
 	    
+	    Usuario usuarioLogado = MyUtils.getLoginedUser(session);
+
+		if (usuarioLogado == null) {
+			response.sendRedirect(request.getContextPath() + "/home");
+			return;
+	    }
+
+	    Connection conn = MyUtils.getStoredConnection(request);
+
 	    String errorString = null;
-		List<Imovel> imovel = null;
+		List<Object> imovel = null;
 
 	    try {
-	    	imovel = DBUtils.queryImoveis(conn);
+	    	imovel = DBUtils.queryFindImoveisUsuario(conn, usuarioLogado);
 	    } catch (SQLException e) {
 	    	e.printStackTrace();
 	    	errorString = e.getMessage();
@@ -34,9 +44,9 @@ public class HomeServlet extends HttpServlet {
 	    request.setAttribute("errorString", errorString);
 	    request.setAttribute("imovelList", imovel);
 
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp");
+	  	RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userImoveis.jsp");
 
-		dispatcher.forward(request, response);
+	  	dispatcher.forward(request, response);
 	}
 
 	@Override

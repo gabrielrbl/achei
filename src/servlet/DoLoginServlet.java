@@ -30,8 +30,7 @@ public class DoLoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String senha = request.getParameter("senha");
-		String rememberMe = request.getParameter("lembrarMe");
-		boolean remember = "Y".equals(rememberMe);
+	    Boolean remember = Boolean.valueOf(request.getParameter("lembrarMe") != null);
 
 		Usuario usuario = null;
 		boolean hasError = false;
