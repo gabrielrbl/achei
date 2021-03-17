@@ -2,8 +2,19 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:wrapper title="Perfil">
+	Nome: ${usuario.nome}
+	<br />
   	E-mail: <b>${usuario.email}</b>
   	<br />
   	CPF: ${usuario.cpf}
   	<br />
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
 </t:wrapper>

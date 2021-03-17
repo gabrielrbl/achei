@@ -6,20 +6,20 @@ import java.sql.SQLException;
 
 public class MySQLConnUtils {
 	public static Connection getMySQLConnection() throws ClassNotFoundException, SQLException {
-		/*
+		///*
 	    String hostName = "remotemysql.com";
 	    String dbName = "GYpj5oZ7C7";
 	    String userName = "GYpj5oZ7C7";
 	    String password = "sJDr13FhMR";
-	    */
+	    //*/
 	     
 	    // LOCAL
-	    ///*
+	    /*
 	    String hostName = "localhost";
 	    String dbName = "achei";
 	    String userName = "root";
 	    String password = "root";
-	    //*/
+	    */
 		return getMySQLConnection(hostName, dbName, userName, password);
 	}
 
