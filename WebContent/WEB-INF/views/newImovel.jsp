@@ -10,27 +10,52 @@
 <div class="container">
 <script>
 $(document).ready(function(){
-	var divNegocio = $("#Negocio"), smallImovel = $(".tipoNegocioSmall"), divNegocioAP = $("#NegocioApartamento"), divNegocioCA = $("#NegocioCasa");
+	var divImovel = $("#Imovel"), dadosImovel = $(".dadosImovel"), divImovelAP = $("#ImovelApartamento"), divImovelCA = $("#ImovelCasa");
+	
+	var divNegocio = $("#Negocio"), dadosNegocio = $(".dadosNegocio"), divLocacao = $("#NegocioLocacao"), divVenda = $("#NegocioVenda");
 	
 	$("select#tipoImovel").on("change", function(){
 		switch ($(this).val()){
 		case "":
-			smallImovel.html("");
-			divNegocio.css("display", "none");
-			divNegocioAP.css("display", "none");
-			divNegocioCA.css("display", "none");
+			dadosImovel.html("");
+			divImovel.css("display", "none");
+			divImovelAP.css("display", "none");
+			divImovelCA.css("display", "none");
 			break;
 		case "AP":
-			smallImovel.html("APARTAMENTO");
-			divNegocio.css("display", "block");
-			divNegocioAP.css("display", "block");
-			divNegocioCA.css("display", "none");
+			dadosImovel.html("DADOS DO APARTAMENTO");
+			divImovel.css("display", "block");
+			divImovelAP.css("display", "block");
+			divImovelCA.css("display", "none");
 			break;
 		case "CA":
-			smallImovel.html("CASA");
+			dadosImovel.html("DADOS DA CASA");
+			divImovel.css("display", "block");
+			divImovelAP.css("display", "none");
+			divImovelCA.css("display", "block");
+			break;
+		}
+	});
+	
+	$("select#tipoNegocio").on("change", function(){
+		switch ($(this).val()){
+		case "":
+			dadosNegocio.html("");
+			divNegocio.css("display", "none");
+			divLocacao.css("display", "none");
+			divVenda.css("display", "none");
+			break;
+		case "alugar":
+			dadosNegocio.html("LOCAÇÃO");
 			divNegocio.css("display", "block");
-			divNegocioAP.css("display", "none");
-			divNegocioCA.css("display", "block");
+			divLocacao.css("display", "block");
+			divVenda.css("display", "none");
+			break;
+		case "comprar":
+			dadosNegocio.html("VENDA");
+			divNegocio.css("display", "block");
+			divVenda.css("display", "block");
+			divLocacao.css("display", "none");
 			break;
 		}
 	});
@@ -125,12 +150,21 @@ $(document).ready(function(){
 		</div>
 	</div>
 	
+	<div class="form-group">
+    	<label for="tipoNegocio">Tipo de Negócio</label>
+      	<select name="tipoNegocio" class="form-control" id="tipoNegocio">
+      		<option value="" selected>Selecione</option>
+        	<option value="alugar">LOCAÇÃO</option>
+        	<option value="comprar" disabled>VENDA</option>
+      	</select>
+   	</div>
+	
 	<br>
 
-	<div id="Negocio" style="display:none;" class="px-0 col-md-12">
-		<h4>TIPO DE NEGÓCIO - <small class="tipoNegocioSmall lead"></small></h4>
+	<div id="Imovel" style="display:none;" class="px-0 col-md-12">
+		<h4 class="dadosImovel"></h4>
 		<hr>
-		<div id="NegocioApartamento" style="display:none;" class="px-0 col-md-12">
+		<div id="ImovelApartamento" style="display:none;" class="px-0 col-md-12">
 			<div class="form-row">
 				<div class="form-group col-md-4">
 				    <label for="bloco">Bloco</label>
@@ -152,7 +186,7 @@ $(document).ready(function(){
 		  		</div>
 			</div>
 		</div>
-		<div id="NegocioCasa" style="display:none;" class="px-0 col-md-12">
+		<div id="ImovelCasa" style="display:none;" class="px-0 col-md-12">
 			<div class="form-row">
 				<div class="form-group col-md-4">
 			    	<label for="lote">Lote</label>
@@ -165,9 +199,48 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+	
+	<div id="Negocio" style="display:none;" class="px-0 col-md-12">
+		<h4 class="dadosNegocio"></h4>
+		<hr>
+		<div id="NegocioLocacao" style="display:none;" class="px-0 col-md-12">
+			<div class="form-row">
+				<div class="form-group col-md-4">
+				    <label for="dataLocacaoInicio">Data de Início</label>
+				    <input type="date" name="dataLocacaoInicio" class="form-control" id="dataLocacaoInicio" />
+			  	</div>
+			  	<div class="form-group col-md-4">
+				    <label for="dataLocacaoFim">Data de Fim</label>
+				    <input type="date" name="dataLocacaoFim" class="form-control" id="dataLocacaoFim" />
+			  	</div>
+			</div>
+			<div class="form-row">
+			  	<div class="form-group col-md-4">
+				    <label for="valorMensal">Valor mensal</label>
+				    <input type="number" name="valorMensal" class="form-control" id="valorMensal" required />
+			  	</div>
+			  	<div class="form-group col-md-4">
+				    <label for="valorAnual">Valor anual</label>
+				    <input type="number" name="valorAnual" class="form-control" id="valorAnual" required />
+			  	</div>
+				<div class="form-group col-md-4">
+				    <label for="formaPagamento">Forma de pagamento</label>
+				    <input type="text" name="formaPagamento" class="form-control" id="formaPagamento" />
+			  	</div>
+			</div>
+		</div>
+		<div id="NegocioVenda" style="display:none;" class="px-0 col-md-12">
+			<div class="form-row">
+				<div class="form-group col-md-4">
+			    	<label for="x">x</label>
+			    	<input type="text" name="" class="form-control" id="x" />
+			  	</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="form-row">
-		<button type="submit" class="btn btn-primary">Criar</button>
+		<button type="submit" class="btn btn-primary">INSERIR</button>
 	</div>
 </form>
 </div>

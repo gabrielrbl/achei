@@ -1,11 +1,15 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import utils.MyUtils;
-import model.Usuario;
+import utils.*;
+import model.*;
+import java.util.*;
 
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {
@@ -17,18 +21,25 @@ public class ProfileServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    HttpSession session = request.getSession();
-
-	    Usuario usuarioLogado = MyUtils.getLoginedUser(session);
-	
-		if (usuarioLogado == null) {
+		if (MyUtils.getLoginedUser(request.getSession()) == null) {
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
-	    }
-	
-	    request.setAttribute("usuario", usuarioLogado);
+		}
+		
+		List<UsuarioContato> usuarioContatoList = new ArrayList<UsuarioContato>();
+
+		Connection conn = MyUtils.getStoredConnection(request);
+		
+		try {
+			usuarioContatoList = DBUtils.queryFindUsuarioContato(conn, MyUtils.getLoginedUser(request.getSession()));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		request.setAttribute("usuarioContatoList", usuarioContatoList);
 	    
 	    RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/profile.jsp");
+	    
 	    dispatcher.forward(request, response);
 	}
 

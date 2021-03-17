@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import jakarta.servlet.*;
 import java.util.*;
-import model.*;
 
 import java.sql.*;
 import utils.*;
@@ -20,14 +19,10 @@ public class ListImoveis extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    HttpSession session = request.getSession();
-	    
-	    Usuario usuarioLogado = MyUtils.getLoginedUser(session);
-
-		if (usuarioLogado == null) {
-			response.sendRedirect(request.getContextPath() + "/home");
+		if (MyUtils.getLoginedUser(request.getSession()) == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
 			return;
-	    }
+		}
 
 	    Connection conn = MyUtils.getStoredConnection(request);
 
@@ -35,7 +30,7 @@ public class ListImoveis extends HttpServlet {
 		List<Object> imovel = null;
 
 	    try {
-	    	imovel = DBUtils.queryFindImoveisUsuario(conn, usuarioLogado);
+	    	imovel = DBUtils.queryFindImoveisUsuario(conn, MyUtils.getLoginedUser(request.getSession()));
 	    } catch (SQLException e) {
 	    	e.printStackTrace();
 	    	errorString = e.getMessage();

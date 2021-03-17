@@ -2,7 +2,10 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -45,12 +48,14 @@ public class DoNewImovel extends HttpServlet {
 		String numero = request.getParameter("numero");
 		String descricao = request.getParameter("descricao");
 		
+		String tipoNegocio = request.getParameter("tipoNegocio");
+		
 		// AP
 		String bloco = null;
 		Integer andar = null;
 		Integer numeroAp = null;
 		Boolean sacada = false;
-		//CASA
+		// CASA
 		String lote = null;
 		String quadra = null;
 		
@@ -64,6 +69,38 @@ public class DoNewImovel extends HttpServlet {
 		case "CA":
 			lote = request.getParameter("lote");
 			quadra = request.getParameter("quadra");
+			break;
+		}
+		
+		//
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		// LOCAÇÃO
+		Date dataLocacaoInicio = null;
+		Date dataLocacaoFim = null;
+		Double valorMensal = null;
+		Double valorAnual = null;
+		String formaPagamento = null;
+		
+		// VENDA
+		
+		
+		switch (tipoNegocio) {
+		case "alugar":
+			try {
+				dataLocacaoInicio = new java.sql.Date(sdf.parse(request.getParameter("dataLocacaoInicio")).getTime());
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			try {
+				dataLocacaoFim =  new java.sql.Date(sdf.parse(request.getParameter("dataLocacaoFim")).getTime());
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			valorMensal = Double.parseDouble(request.getParameter("valorMensal"));
+			valorAnual = Double.parseDouble(request.getParameter("valorAnual"));
+			formaPagamento = request.getParameter("formaPagamento");
+			break;
+		case "comprar":
 			break;
 		}
 		
@@ -111,6 +148,22 @@ public class DoNewImovel extends HttpServlet {
 				ap.setSacada(sacada);
 				
 				ap.setIdapartamento(DBUtils.insertApartamento(conn, ap));
+				
+				switch (tipoNegocio) {
+				case "alugar":
+					Locacao loca = new Locacao();
+					loca.setImovel(ap);
+					loca.setDataLocacaoInicio(dataLocacaoInicio);
+					loca.setDataLocacaoFim(dataLocacaoFim);
+					loca.setValorMensal(valorMensal);
+					loca.setValorAnual(valorAnual);
+					loca.setFormaPagamento(formaPagamento);
+					
+					loca.setIdlocacao(DBUtils.insertLocacao(conn, loca));
+					break;
+				case "comprar":
+					break;
+				}
 				break;
 			case "CA":
 				Casa ca = new Casa();
@@ -119,6 +172,22 @@ public class DoNewImovel extends HttpServlet {
 				ca.setQuadra(quadra);
 				
 				ca.setIdcasa(DBUtils.insertCasa(conn, ca));
+				
+				switch (tipoNegocio) {
+				case "alugar":
+					Locacao loca = new Locacao();
+					loca.setImovel(ca);
+					loca.setDataLocacaoInicio(dataLocacaoInicio);
+					loca.setDataLocacaoFim(dataLocacaoFim);
+					loca.setValorMensal(valorMensal);
+					loca.setValorAnual(valorAnual);
+					loca.setFormaPagamento(formaPagamento);
+					
+					loca.setIdlocacao(DBUtils.insertLocacao(conn, loca));
+					break;
+				case "comprar":
+					break;
+				}
 				break;
 			}
 

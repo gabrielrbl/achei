@@ -4,7 +4,6 @@ import java.io.IOException;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import model.Usuario;
 import utils.MyUtils;
 
 @WebServlet("/login")
@@ -17,14 +16,10 @@ public class LoginServlet extends HttpServlet {
 
   	@Override
   	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    HttpSession session = request.getSession();
-
-	    Usuario usuarioLogado = MyUtils.getLoginedUser(session);
-
-		if (usuarioLogado != null) {
-			response.sendRedirect(request.getContextPath() + "/home");
+		if (MyUtils.getLoginedUser(request.getSession()) != null) {
+			response.sendRedirect(request.getContextPath() + "/login");
 			return;
-	    }
+		}
 
 	  	RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/login.jsp");
 

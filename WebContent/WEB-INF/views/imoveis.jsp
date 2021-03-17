@@ -79,7 +79,7 @@
 						      	</div>
 						      	<div class="card-footer">
 						        	<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-						        	<a href="#" class="btn btn-primary float-right">+ DETALHES</a>
+						        	<a href="${pageContext.request.contextPath}/imovel/${imovel.idimovel}" class="btn btn-primary float-right">+ DETALHES</a>
 						      	</div>
 							</div>
 						</div>
