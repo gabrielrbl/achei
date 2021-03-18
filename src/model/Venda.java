@@ -7,24 +7,20 @@ public class Venda {
 	private Imovel imovel;
 	private Date dataVendaIniciada;
 	private Date dataVendaFinalizada;
-	private Double valorMensal;
-	private Double valorAnual;
+	private Double valorVenda;
 	private String formaPagamento;
-	private Date dataPagamentoVenda;
 	
 	public Venda() { }
-	
-	public Venda(Integer idvenda, Imovel imovel, Date dataVendaIniciada, Date dataVendaFinalizada, Double valorMensal,
-			Double valorAnual, String formaPagamento, Date dataPagamentoVenda) {
+
+	public Venda(Integer idvenda, Imovel imovel, Date dataVendaIniciada, Date dataVendaFinalizada, Double valorVenda,
+			String formaPagamento) {
 		super();
 		this.idvenda = idvenda;
 		this.imovel = imovel;
 		this.dataVendaIniciada = dataVendaIniciada;
 		this.dataVendaFinalizada = dataVendaFinalizada;
-		this.valorMensal = valorMensal;
-		this.valorAnual = valorAnual;
+		this.valorVenda = valorVenda;
 		this.formaPagamento = formaPagamento;
-		this.dataPagamentoVenda = dataPagamentoVenda;
 	}
 
 	public Integer getIdvenda() {
@@ -59,20 +55,12 @@ public class Venda {
 		this.dataVendaFinalizada = dataVendaFinalizada;
 	}
 
-	public Double getValorMensal() {
-		return valorMensal;
+	public Double getValorVenda() {
+		return valorVenda;
 	}
 
-	public void setValorMensal(Double valorMensal) {
-		this.valorMensal = valorMensal;
-	}
-
-	public Double getValorAnual() {
-		return valorAnual;
-	}
-
-	public void setValorAnual(Double valorAnual) {
-		this.valorAnual = valorAnual;
+	public void setValorVenda(Double valorVenda) {
+		this.valorVenda = valorVenda;
 	}
 
 	public String getFormaPagamento() {
@@ -83,35 +71,10 @@ public class Venda {
 		this.formaPagamento = formaPagamento;
 	}
 
-	public Date getDataPagamentoVenda() {
-		return dataPagamentoVenda;
-	}
-
-	public void setDataPagamentoVenda(Date dataPagamentoVenda) {
-		this.dataPagamentoVenda = dataPagamentoVenda;
-	}
-
-	public void cadastrar() {
-		
-	}
-	
-	public void consultar() {
-		
-	}
-	
-	public void alterar() {
-		
-	}
-	
-	public void excluir() {
-		
-	}
-
 	@Override
 	public String toString() {
 		return "Venda [idvenda=" + idvenda + ", imovel=" + imovel + ", dataVendaIniciada=" + dataVendaIniciada
-				+ ", dataVendaFinalizada=" + dataVendaFinalizada + ", valorMensal=" + valorMensal + ", valorAnual="
-				+ valorAnual + ", formaPagamento=" + formaPagamento + ", dataPagamentoVenda=" + dataPagamentoVenda
-				+ "]";
-	}	
+				+ ", dataVendaFinalizada=" + dataVendaFinalizada + ", valorVenda=" + valorVenda + ", formaPagamento="
+				+ formaPagamento + "]";
+	}
 }

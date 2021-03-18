@@ -35,13 +35,12 @@ public class DoNewImovel extends HttpServlet {
 		
 		String tipoImovel = request.getParameter("tipoImovel");
 		String[] fotos = request.getParameterValues("fotos");
-		String dormitorios = request.getParameter("dormitorios");
+		String quartos = request.getParameter("quartos");
 		String banheiros = request.getParameter("banheiros");
 		String suites = request.getParameter("suites");
-		String vagasgaragem = request.getParameter("vagasgaragem");
-		String areaconstruida = request.getParameter("areaconstruida");
-		String areatotal = request.getParameter("areatotal");
-		String valor = request.getParameter("valor");
+		String vagasGaragem = request.getParameter("vagasGaragem");
+		String areaConstruida = request.getParameter("areaConstruida");
+		String areaTotal = request.getParameter("areaTotal");
 		String cidade = request.getParameter("cidade");
 		String bairro = request.getParameter("bairro");
 		String rua = request.getParameter("rua");
@@ -79,28 +78,43 @@ public class DoNewImovel extends HttpServlet {
 		Date dataLocacaoFim = null;
 		Double valorMensal = null;
 		Double valorAnual = null;
-		String formaPagamento = null;
-		
+		String formaPagamentoLocacao = null;
 		// VENDA
+		Date dataVendaIniciada = null;
+		Date dataVendaFinalizada = null;
+		Double valorVenda = null;
+		String formaPagamentoVenda = null;
 		
 		
 		switch (tipoNegocio) {
 		case "alugar":
 			try {
 				dataLocacaoInicio = new java.sql.Date(sdf.parse(request.getParameter("dataLocacaoInicio")).getTime());
-			} catch (ParseException e1) {
-				e1.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
 			try {
 				dataLocacaoFim =  new java.sql.Date(sdf.parse(request.getParameter("dataLocacaoFim")).getTime());
-			} catch (ParseException e1) {
-				e1.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
 			valorMensal = Double.parseDouble(request.getParameter("valorMensal"));
 			valorAnual = Double.parseDouble(request.getParameter("valorAnual"));
-			formaPagamento = request.getParameter("formaPagamento");
+			formaPagamentoLocacao = request.getParameter("formaPagamentoLocacao");
 			break;
 		case "comprar":
+			try {
+				dataVendaIniciada = new java.sql.Date(sdf.parse(request.getParameter("dataVendaIniciada")).getTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			try {
+				dataVendaFinalizada = new java.sql.Date(sdf.parse(request.getParameter("dataVendaIniciada")).getTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			valorVenda = Double.parseDouble(request.getParameter("valorVenda"));
+			formaPagamentoVenda = request.getParameter("formaPagamentoVenda");
 			break;
 		}
 		
@@ -111,13 +125,12 @@ public class DoNewImovel extends HttpServlet {
 		Imovel imovel = new Imovel();
 		imovel.setResponsavel((Usuario) session.getAttribute("usuarioLogado"));
 		imovel.setTipo(tipoImovel);
-		imovel.setDormitorios(Integer.parseInt(dormitorios));
+		imovel.setQuartos(Integer.parseInt(quartos));
 		imovel.setBanheiros(Integer.parseInt(banheiros));
 		imovel.setSuites(Integer.parseInt(suites));
-		imovel.setVagasGaragem(Integer.parseInt(vagasgaragem));
-		imovel.setAreaConstruida(Double.parseDouble(areaconstruida));
-		imovel.setAreaTotal(Double.parseDouble(areatotal));
-		imovel.setValor(Double.parseDouble(valor));
+		imovel.setVagasGaragem(Integer.parseInt(vagasGaragem));
+		imovel.setAreaConstruida(Double.parseDouble(areaConstruida));
+		imovel.setAreaTotal(Double.parseDouble(areaTotal));
 		imovel.setCidade(cidade);
 		imovel.setBairro(bairro);
 		imovel.setRua(rua);
@@ -157,11 +170,19 @@ public class DoNewImovel extends HttpServlet {
 					loca.setDataLocacaoFim(dataLocacaoFim);
 					loca.setValorMensal(valorMensal);
 					loca.setValorAnual(valorAnual);
-					loca.setFormaPagamento(formaPagamento);
+					loca.setFormaPagamento(formaPagamentoLocacao);
 					
 					loca.setIdlocacao(DBUtils.insertLocacao(conn, loca));
 					break;
 				case "comprar":
+					Venda ve = new Venda();
+					ve.setImovel(ap);
+					ve.setDataVendaIniciada(dataVendaIniciada);
+					ve.setDataVendaFinalizada(dataVendaFinalizada);
+					ve.setValorVenda(valorVenda);
+					ve.setFormaPagamento(formaPagamentoVenda);
+					
+					ve.setIdvenda(DBUtils.insertVenda(conn, ve));
 					break;
 				}
 				break;
@@ -181,11 +202,19 @@ public class DoNewImovel extends HttpServlet {
 					loca.setDataLocacaoFim(dataLocacaoFim);
 					loca.setValorMensal(valorMensal);
 					loca.setValorAnual(valorAnual);
-					loca.setFormaPagamento(formaPagamento);
+					loca.setFormaPagamento(formaPagamentoLocacao);
 					
 					loca.setIdlocacao(DBUtils.insertLocacao(conn, loca));
 					break;
 				case "comprar":
+					Venda ve = new Venda();
+					ve.setImovel(ca);
+					ve.setDataVendaIniciada(dataVendaIniciada);
+					ve.setDataVendaFinalizada(dataVendaFinalizada);
+					ve.setValorVenda(valorVenda);
+					ve.setFormaPagamento(formaPagamentoVenda);
+					
+					ve.setIdvenda(DBUtils.insertVenda(conn, ve));
 					break;
 				}
 				break;

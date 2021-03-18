@@ -7,44 +7,40 @@ public class Imovel {
 	private Usuario responsavel;
 	private List<ImovelFoto> fotos;
 	private String tipo;
-	private Integer dormitorios;
+	private Integer quartos;
 	private Integer banheiros;
 	private Integer suites;
 	private Integer vagasGaragem;
 	private Double areaConstruida;
 	private Double areaTotal;
-	private Double valor;
 	private String descricao;
 	private String cidade;
 	private String bairro;
 	private String rua;
 	private String numero;
-	private String observacao;
-	private String status;
+	private Boolean status;
 	
 	public Imovel() { }
 
-	public Imovel(Integer idimovel, Usuario responsavel, List<ImovelFoto> fotos, String tipo, Integer dormitorios, Integer banheiros,
-			Integer suites, Integer vagasGaragem, Double areaConstruida, Double areaTotal, Double valor, String descricao,
-			String cidade, String bairro, String rua, String numero, String observacao, String status) {
+	public Imovel(Integer idimovel, Usuario responsavel, List<ImovelFoto> fotos, String tipo, Integer quartos,
+			Integer banheiros, Integer suites, Integer vagasGaragem, Double areaConstruida, Double areaTotal,
+			String descricao, String cidade, String bairro, String rua, String numero, Boolean status) {
 		super();
 		this.idimovel = idimovel;
 		this.responsavel = responsavel;
 		this.fotos = fotos;
 		this.tipo = tipo;
-		this.dormitorios = dormitorios;
+		this.quartos = quartos;
 		this.banheiros = banheiros;
 		this.suites = suites;
 		this.vagasGaragem = vagasGaragem;
 		this.areaConstruida = areaConstruida;
 		this.areaTotal = areaTotal;
-		this.valor = valor;
 		this.descricao = descricao;
 		this.cidade = cidade;
 		this.bairro = bairro;
 		this.rua = rua;
 		this.numero = numero;
-		this.observacao = observacao;
 		this.status = status;
 	}
 
@@ -80,12 +76,12 @@ public class Imovel {
 		this.tipo = tipo;
 	}
 
-	public Integer getDormitorios() {
-		return dormitorios;
+	public Integer getQuartos() {
+		return quartos;
 	}
 
-	public void setDormitorios(Integer dormitorios) {
-		this.dormitorios = dormitorios;
+	public void setQuartos(Integer quartos) {
+		this.quartos = quartos;
 	}
 
 	public Integer getBanheiros() {
@@ -128,14 +124,6 @@ public class Imovel {
 		this.areaTotal = areaTotal;
 	}
 
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
-	}
-
 	public String getDescricao() {
 		return descricao;
 	}
@@ -176,44 +164,20 @@ public class Imovel {
 		this.numero = numero;
 	}
 
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
-	}
-
-	public String getStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 
 	@Override
 	public String toString() {
-		return "Imovel [idimovel=" + idimovel + ", tipo=" + tipo + ", dormitorios=" + dormitorios
-				+ ", banheiros=" + banheiros + ", suites=" + suites + ", vagasGaragem=" + vagasGaragem
-				+ ", areaConstruida=" + areaConstruida + ", areaTotal=" + areaTotal + ", valor=" + valor
-				+ ", descricao=" + descricao + ", cidade=" + cidade + ", bairro=" + bairro + ", rua=" + rua
-				+ ", numero=" + numero + ", observacao=" + observacao + ", status=" + status + "]";
-	}
-
-	public void cadastrar() {
-		
-	}
-	
-	public void consultar() {
-		
-	}
-	
-	public void alterar() {
-		
-	}
-	
-	public void excluir() {
-		
+		return "Imovel [idimovel=" + idimovel + ", responsavel=" + responsavel + ", fotos=" + fotos + ", tipo=" + tipo
+				+ ", quartos=" + quartos + ", banheiros=" + banheiros + ", suites=" + suites + ", vagasGaragem="
+				+ vagasGaragem + ", areaConstruida=" + areaConstruida + ", areaTotal=" + areaTotal + ", descricao="
+				+ descricao + ", cidade=" + cidade + ", bairro=" + bairro + ", rua=" + rua + ", numero=" + numero
+				+ ", status=" + status + "]";
 	}
 }
