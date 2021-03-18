@@ -3,13 +3,12 @@ package servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import utils.*;
-
-import com.google.gson.*;
 
 @WebServlet("/DeleteImovel")
 public class DeleteImovel extends HttpServlet {
@@ -24,23 +23,29 @@ public class DeleteImovel extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JsonObject json = new Gson().fromJson(request.getReader(), JsonObject.class);
+		Integer idimovel = Integer.parseInt(request.getParameter("idImovel"));
 
-		Integer idimovel = Integer.parseInt(json.get("id").getAsString());
-				
 		Connection conn = MyUtils.getStoredConnection(request);
-
-		Boolean status = false;
 		
 		try {
-	    	status = DBUtils.deleteImovel(conn, idimovel);
+	    	DBUtils.deleteImovel(conn, idimovel);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			e.getMessage();
 		}
-		
-	    response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
-	    response.getWriter().write(new Gson().toJson(status));
+
+		List<Object> imovel = null;
+
+	    try {
+	    	imovel = DBUtils.queryFindImoveisUsuario(conn, MyUtils.getLoginedUser(request.getSession()));
+	    } catch (SQLException e) {
+	    	e.printStackTrace();
+	    	e.getMessage();
+	    }
+
+	    request.setAttribute("msgString", "Imóvel excluído com sucesso!");
+	    request.setAttribute("imovelList", imovel);
+
+		request.getRequestDispatcher("/WEB-INF/views/userImoveis.jsp").forward(request, response);
     }
 }

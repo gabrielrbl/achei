@@ -77,29 +77,10 @@ public class Usuario {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
-	
+
 	@Override
 	public String toString() {
-		return nome;
-	}
-
-	public void cadastrar() {
-		
-	}
-	
-	public void consultar() {
-		
-	}
-	
-	public void alterar() {
-		
-	}
-	
-	public void excluir() {
-		
-	}
-	
-	public void acessarImovel(Imovel imovel) {
-		
+		return "Usuario [idusuario=" + idusuario + ", nome=" + nome + ", cpf=" + cpf + ", email=" + email + ", senha="
+				+ senha + ", observacao=" + observacao + ", ativo=" + ativo + "]";
 	}
 }

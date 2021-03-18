@@ -5,16 +5,15 @@
 
 <t:wrapper title="Imóvel">
 <style>
-.card-img-top {
-   	width: 100%;
-   	height: 10vw;
-   	object-fit: cover;
-}
+	.card-img-top {
+	   	width: 100%;
+	   	height: 10vw;
+	   	object-fit: cover;
+	}
 </style>
 
 <c:set var="tipoNegocioClass" value="${imovel['class'].simpleName}" />
 <c:set var="tipoImovelClass" value="${imovel.imovel['class'].simpleName}" />
-
 <c:set var="im" value="${imovel.imovel.imovel}" />
 
 <c:choose>

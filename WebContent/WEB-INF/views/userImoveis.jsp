@@ -6,6 +6,7 @@
 <t:wrapper title="Listagem de Imóveis">
 <div class="card">
 	<div class="card-body">
+	<c:if test="${msgString != null}">${msgString}</c:if>
 		<h4 class="box-title d-flex justify-content-between">
 			Imóveis cadastrados
 			<a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/addImovel">+ ADICIONAR</a>
@@ -20,29 +21,37 @@
 					<thead class="thead-light">
 						<tr>
 					    	<th scope="col">#</th>
-					      	<th scope="col">TIPO</th>
+					      	<th scope="col">IMÓVEL</th>
+					      	<th scope="col">NEGÓCIO</th>
 					      	<th scope="col">LOCAL</th>
 					      	<th scope="col">AÇÕES</th>
 						</tr>
 					</thead>
 				  	<tbody>
-						<c:forEach var="im" items="${imovelList}">
-						<tr>
-				      		<th scope="row">${im.imovel.idimovel}</th>
-					      	<td>${im.imovel.tipo}</td>
-					      	<td>${im.imovel.cidade}, ${im.imovel.bairro}, ${im.imovel.rua}<c:if test="${im.imovel.numero != null}">, ${im.imovel.numero}</c:if></td>
-					      	<td>
-					      		<a href="${pageContext.request.contextPath}/imovel/${im.imovel.idimovel}" target="_blank">
-					      			<button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
-					      		</a>
-					      		<a href="#">
-		              				<button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
-	              				</a>
-	              				<a href="#" class="deletar" data-id="${im.imovel.idimovel}">
-		            				<button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-					      		</a>
-					      	</td>
-				    	</tr>
+						<c:forEach var="imovel" items="${imovelList}">
+							<c:set var="im" value="${imovel.imovel.imovel}" />
+							<c:choose>
+								<c:when test="${imovel['class'].simpleName == 'Locacao'}"><c:set var="tipoNegocio" value="Locação" /></c:when>
+								<c:when test="${imovel['class'].simpleName == 'Venda'}"><c:set var="tipoNegocio" value="Venda" /></c:when>
+							</c:choose>
+							<c:set var="tipoImovelClass" value="${imovel.imovel['class'].simpleName}" />
+							<tr>
+					      		<th scope="row">${im.idimovel}</th>
+						      	<td>${imovel.imovel['class'].simpleName}</td>
+						      	<td>${tipoNegocio}</td>
+						      	<td><span style="text-transform: capitalize;">${fn:toLowerCase(im.cidade)}, ${fn:toLowerCase(im.bairro)}, ${fn:toLowerCase(im.rua)}</span><c:if test="${im.numero != null}">, nº ${im.numero}</c:if></td>
+						      	<td>
+						      		<a href="${pageContext.request.contextPath}/imovel/${im.idimovel}" target="_blank">
+						      			<button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
+						      		</a>
+						      		<a href="#">
+			              				<button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
+		              				</a>
+		              				<a href="#" class="deletar" data-id="${im.idimovel}">
+			            				<button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+						      		</a>
+						      	</td>
+					    	</tr>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -64,7 +73,10 @@
 				Tem certeza que deseja remover o Imóvel #<span class="idImovelremove"></span>?
       		</div>
       		<div class="modal-footer">
-        		<button type="button" class="btn btn-danger btn-primary confirm-delete">Excluir</button>
+      			<form id="formDelete" action="DeleteImovel">
+      				<input type="hidden" id="idImovel" name="idImovel" />
+      				<button type="button" class="btn btn-danger btn-primary">Excluir</button>
+   				</form>
         		<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
       		</div>
     	</div>
@@ -76,29 +88,14 @@
 $(document).ready(function() {
 	$(document).on("click", ".deletar", function() {
 		$(".idImovelremove").html($(this).data("id"));
+		$("input#idImovel").val($(this).data("id"));
 		$(".confirm-delete").data("id", $(this).data("id"));
 		$("#removeModal").modal();
-		
-	});	
+	});
 	
-	$(document).on("click", ".confirm-delete", function() {
-		$.ajax({
-			type: "POST",
-			url: "DeleteImovel",
-			data: JSON.stringify({id: $(this).data("id")}),
-			contentType: "json",
-			success: (response) => {
-				if(response){
-					alert("Imóvel "+ $(this).data("id") +" excluído com sucesso!");
-					window.location.reload(true);
-				} else {
-					alert("Não foi possível excluir o imóvel...");
-				}
-			},
-			error: (e) => {
-				console.log(e);
-			}
-		});
+	$("#formDelete button").on("click", function(){
+		$("#removeModal").find("button").prop("disabled", true);
+		$("#formDelete").submit();
 	});
 });
 </script>
