@@ -35,6 +35,14 @@
 				  	<c:forEach var="im" items="${imovelList}">
 				  		<c:set var="imovel" value="${im.imovel.imovel}" />
 				  		<c:set var="tipoNegocioClass" value="${im['class'].simpleName}" />
+						<c:choose>
+							<c:when test="${tipoNegocioClass == 'Locacao'}">
+								<c:set var="valor" value="${im.valorMensal}" />
+							</c:when>
+							<c:when test="${tipoNegocioClass == 'Venda'}">
+								<c:set var="valor" value="${im.valorVenda}" />
+							</c:when>
+						</c:choose>
 					  	<div class="col-lg-6 col-md-6 mb-6">
 							<div class="card h-100">
 								<div id="carouselExampleIndicators-${imovel.idimovel}" class="carousel slide carousel-fade" data-ride="carousel">
@@ -73,20 +81,16 @@
 										</a>
 									</h4>
 									<c:if test="${!empty usuarioLogado}">
-						        		<h5>R$ <c:out value="${imovel.valor}" /></h5>
+						        		<h5>R$ <c:out value="${valor}" /></h5>
 						        		<p class="card-text"><c:out value="${imovel.descricao}" /></p>
 						        	</c:if>
 						      	</div>
 						      	<div class="card-footer">
 						        	<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-						        	<a href="#" class="btn btn-primary float-right">+ DETALHES</a>
+						        	<a href="${pageContext.request.contextPath}/imovel/${imovel.idimovel}" class="btn btn-primary float-right">+ DETALHES</a>
 						      	</div>
 							</div>
 						</div>
-						<!-- 
-				          	<a href="${pageContext.request.contextPath}/editImovel?code=${imovel.idimovel}">Editar</a>
-				          	<a href="${pageContext.request.contextPath}/deleteImovel?code=${imovel.idimovel}">Excluir</a>
-						-->
 					</c:forEach>
 			  	</c:otherwise>
 			</c:choose>

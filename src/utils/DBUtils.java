@@ -1,78 +1,31 @@
 package utils;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 import model.*;
 
-public class DBUtils {
-	public static Usuario encontrarUsuario(Connection conn, String email, String senha) throws SQLException {
-	    String sql = "SELECT IDUSUARIO, NOME, CPF, EMAIL, SENHA, OBSERVACAO, ATIVO FROM USUARIO WHERE LOWER(EMAIL) = LOWER(?) AND SENHA = ?";
-	
-	    PreparedStatement pstm = conn.prepareStatement(sql);
-	    pstm.setString(1, email);
-	    pstm.setString(2, senha);
-	    ResultSet rs = pstm.executeQuery();
-
-	    if (rs.next()) {
-	    	Usuario usuario = new Usuario();
-	      	usuario.setIdusuario(rs.getInt("idusuario"));
-	      	usuario.setNome(rs.getString("nome"));
-	      	usuario.setCpf(rs.getString("cpf"));
-	      	usuario.setEmail(email);
-	      	usuario.setSenha(senha);
-	      	usuario.setObservacao(rs.getString("observacao"));
-	      	usuario.setAtivo(rs.getBoolean("ativo"));
-	      	return usuario;
-		}
-	    return null;
-	}
-
-	public static Usuario encontrarUsuario(Connection conn, String email) throws SQLException {
-	    String sql = "SELECT IDUSUARIO, NOME, CPF, EMAIL, SENHA, OBSERVACAO, ATIVO FROM USUARIO WHERE LOWER(EMAIL) = LOWER(?)";
-	
-	    PreparedStatement pstm = conn.prepareStatement(sql);
-	    pstm.setString(1, email);
-	
-	    ResultSet rs = pstm.executeQuery();
-	
-	    if (rs.next()) {
-	    	Usuario usuario = new Usuario();
-	    	usuario.setIdusuario(rs.getInt("idusuario"));
-	    	usuario.setNome(rs.getString("nome"));
-	      	usuario.setCpf(rs.getString("cpf"));
-	      	usuario.setEmail(email);
-	      	usuario.setSenha(rs.getString("senha"));
-	      	usuario.setObservacao(rs.getString("observacao"));
-	      	usuario.setAtivo(rs.getBoolean("ativo"));
-	      	return usuario;
-		}
-	    return null;
-	}
-	
-	
+public class DBUtils {	
 	public static Integer insertImovel(Connection conn, Imovel imovel) throws SQLException {
-		String sql = "INSERT INTO IMOVEL(IDRESPONSAVEL, TIPO, DORMITORIOS, BANHEIROS, SUITES, "
-				   + "VAGASGARAGEM, AREACONSTRUIDA, AREATOTAL, VALOR, DESCRICAO, CIDADE, BAIRRO, RUA, "
-				   + "NUMERO, OBSERVACAO, STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO IMOVEL(IDRESPONSAVEL, TIPO, QUARTOS, BANHEIROS, SUITES, "
+				   + "VAGASGARAGEM, AREACONSTRUIDA, AREATOTAL, DESCRICAO, CIDADE, BAIRRO, "
+				   + "RUA, NUMERO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	    PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 	    
 	    pstm.setInt(1, imovel.getResponsavel().getIdusuario());
 	    pstm.setString(2, imovel.getTipo());
-	    pstm.setInt(3, imovel.getDormitorios());
+	    pstm.setInt(3, imovel.getQuartos());
 	    pstm.setInt(4, imovel.getBanheiros());
 	    pstm.setInt(5, imovel.getSuites());
 	    pstm.setInt(6, imovel.getVagasGaragem());
 	    pstm.setDouble(7, imovel.getAreaConstruida());
 	    pstm.setDouble(8, imovel.getAreaTotal());
-	    pstm.setDouble(9, imovel.getValor());
-	    pstm.setString(10, imovel.getDescricao());
-	    pstm.setString(11, imovel.getCidade());
-	    pstm.setString(12, imovel.getBairro());
-	    pstm.setString(13, imovel.getRua());
-	    pstm.setString(14, imovel.getNumero());
-	    pstm.setString(15, imovel.getObservacao());
-	    pstm.setString(16, imovel.getStatus());
+	    pstm.setString(9, imovel.getDescricao());
+	    pstm.setString(10, imovel.getCidade());
+	    pstm.setString(11, imovel.getBairro());
+	    pstm.setString(12, imovel.getRua());
+	    pstm.setString(13, imovel.getNumero());
 	    
 	    pstm.executeUpdate();
 	    
@@ -87,7 +40,14 @@ public class DBUtils {
 	    return numero;
 	}
 	
-	
+	public static Boolean deleteImovel(Connection conn, Integer idimovel) throws SQLException {
+		String sql = "DELETE FROM IMOVEL WHERE IDIMOVEL = "+ idimovel +"";
+		
+	    PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);	    
+	    Integer rowsAffected = pstm.executeUpdate();
+	    
+	    return (rowsAffected > 0) ? true : false;
+	}
 	
 	public static Integer insertImovelFoto(Connection conn, ImovelFoto imovelfoto) throws SQLException {
 		String sql = "INSERT INTO IMOVELFOTO(IDIMOVEL, FOTO) VALUES (?, ?)";
@@ -155,9 +115,81 @@ public class DBUtils {
 	    
 	    return numero;
 	}
-	
 
+	public static Integer insertLocacao(Connection conn, Locacao locacao) throws SQLException {
+		String sql = "INSERT INTO LOCACAO(";
+	    
+		if(locacao.getImovel() instanceof Apartamento) {
+			sql += "IDAPARTAMENTO, ";
+		} else if(locacao.getImovel() instanceof Casa) {
+			sql += "IDCASA, ";
+		}
+		
+		sql += "DATALOCACAOINICIO, DATALOCACAOFIM, VALORMENSAL, VALORANUAL, FORMAPAGAMENTO) VALUES (?, ?, ?, ?, ?, ?)";
 
+	    PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		
+		if(locacao.getImovel() instanceof Apartamento) {
+			pstm.setInt(1, ((Apartamento) locacao.getImovel()).getIdapartamento());
+		} else if(locacao.getImovel() instanceof Casa) {
+			pstm.setInt(1, ((Casa) locacao.getImovel()).getIdcasa());
+		}
+	    
+		pstm.setDate(2, (Date) locacao.getDataLocacaoInicio());
+		pstm.setDate(3, (Date) locacao.getDataLocacaoInicio());
+		pstm.setDouble(4, locacao.getValorMensal());
+		pstm.setDouble(5, locacao.getValorAnual());
+		pstm.setString(6, locacao.getFormaPagamento());
+		
+	    pstm.executeUpdate();
+	    
+	    Integer numero = null;
+	    
+	    ResultSet rs = pstm.getGeneratedKeys();
+	    
+	    if (rs != null && rs.next()) {
+	    	numero = rs.getInt(1);
+	    }
+	    
+	    return numero;
+	}
+
+	public static Integer insertVenda(Connection conn, Venda venda) throws SQLException {
+		String sql = "INSERT INTO VENDA(";
+	    
+		if(venda.getImovel() instanceof Apartamento) {
+			sql += "IDAPARTAMENTO, ";
+		} else if(venda.getImovel() instanceof Casa) {
+			sql += "IDCASA, ";
+		}
+		
+		sql += "DATAVENDAINICIADA, DATAVENDAFINALIZADA, VALORVENDA, FORMAPAGAMENTO) VALUES (?, ?, ?, ?, ?)";
+
+	    PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		
+		if(venda.getImovel() instanceof Apartamento) {
+			pstm.setInt(1, ((Apartamento) venda.getImovel()).getIdapartamento());
+		} else if(venda.getImovel() instanceof Casa) {
+			pstm.setInt(1, ((Casa) venda.getImovel()).getIdcasa());
+		}
+	    
+		pstm.setDate(2, (Date) venda.getDataVendaIniciada());
+		pstm.setDate(3, (Date) venda.getDataVendaFinalizada());
+		pstm.setDouble(4, venda.getValorVenda());
+		pstm.setString(5, venda.getFormaPagamento());
+		
+	    pstm.executeUpdate();
+	    
+	    Integer numero = null;
+	    
+	    ResultSet rs = pstm.getGeneratedKeys();
+	    
+	    if (rs != null && rs.next()) {
+	    	numero = rs.getInt(1);
+	    }
+	    
+	    return numero;
+	}
 	
 	public static List<Object> queryFindImoveisUsuario(Connection conn, Usuario usuario) throws SQLException {
 		String sql = "SELECT * FROM IMOVEL WHERE IDRESPONSAVEL = ?";
@@ -174,20 +206,18 @@ public class DBUtils {
 	    	imovel.setResponsavel(usuario);
 	    	imovel.setFotos(queryImovelFoto(conn, imovel));
 	    	imovel.setTipo(rs.getString("tipo"));
-	    	imovel.setDormitorios(rs.getInt("dormitorios"));
+	    	imovel.setQuartos(rs.getInt("quartos"));
 	    	imovel.setBanheiros(rs.getInt("banheiros"));
 	    	imovel.setSuites(rs.getInt("suites"));
 	    	imovel.setVagasGaragem(rs.getInt("vagasgaragem"));
 	    	imovel.setAreaConstruida(rs.getDouble("areaconstruida"));
 	    	imovel.setAreaTotal(rs.getDouble("areatotal"));
-	    	imovel.setValor(rs.getDouble("valor"));
 	    	imovel.setDescricao(rs.getString("descricao"));
 	    	imovel.setCidade(rs.getString("cidade"));
 	    	imovel.setBairro(rs.getString("bairro"));
 	    	imovel.setRua(rs.getString("rua"));
 	    	imovel.setNumero(rs.getString("numero"));
-	    	imovel.setObservacao(rs.getString("observacao"));
-	    	imovel.setStatus(rs.getString("status"));
+	    	imovel.setStatus(rs.getBoolean("status"));
 	    	
 	    	switch (rs.getString("tipo")) {
 			case "AP":
@@ -213,8 +243,25 @@ public class DBUtils {
 	    return imoveis;
 	}
 	
-	
-	
+	public static List<UsuarioContato> queryFindUsuarioContato(Connection conn, Usuario usuario) throws SQLException {
+		String sql = "SELECT * FROM USUARIOCONTATO WHERE IDUSUARIO = ?";
+
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    pstm.setInt(1, usuario.getIdusuario());
+	    
+	    ResultSet rs = pstm.executeQuery();
+	    List<UsuarioContato> usuariocontato = new ArrayList<UsuarioContato>();
+	    
+	    while (rs.next()) {
+	    	UsuarioContato uc = new UsuarioContato();
+	    	uc.setIdusuariocontato(rs.getInt("idusuariocontato"));
+	    	uc.setUsuario(usuario);
+	    	uc.setTipo(rs.getString("tipo"));
+	    	uc.setContato(rs.getString("contato"));
+	    	usuariocontato.add(uc);
+	    }
+	    return usuariocontato;
+	}
 
 	public static Venda queryFindVenda(Connection conn, Imovel imovel) throws SQLException {
 		String sql = "SELECT * FROM VENDA ";
@@ -227,20 +274,18 @@ public class DBUtils {
 	    PreparedStatement pstm = conn.prepareStatement(sql);
 	    ResultSet rs = pstm.executeQuery();
 
-    	Venda venda = new Venda();
+    	Venda venda = null;
 	    
 	    if (rs.next()) {
+	    	venda = new Venda();
 	    	venda.setIdvenda(rs.getInt("idvenda"));
 	    	venda.setImovel(imovel);
-	    	venda.setDataPagamentoVenda(rs.getDate("datapagamentovenda"));
 	    	venda.setDataVendaFinalizada(rs.getDate("datavendafinalizada"));
 	    	venda.setDataVendaIniciada(rs.getDate("datavendainiciada"));
 	    	venda.setFormaPagamento(rs.getString("formapagamento"));
-	    	venda.setValorAnual(rs.getDouble("valoranual"));
-	    	venda.setValorMensal(rs.getDouble("valormensal"));
-			return venda;
+	    	venda.setValorVenda(rs.getDouble("valorvenda"));
 	    }
-		return null;
+		return venda;
 	}
 
 	public static Locacao queryFindLocacao(Connection conn, Imovel imovel) throws SQLException {
@@ -254,9 +299,10 @@ public class DBUtils {
 	    PreparedStatement pstm = conn.prepareStatement(sql);
 	    ResultSet rs = pstm.executeQuery();
 
-    	Locacao locacao = new Locacao();
+    	Locacao locacao = null;
 	    
 	    if (rs.next()) {
+	    	locacao = new Locacao();
 	    	locacao.setIdlocacao(rs.getInt("idlocacao"));
 	    	locacao.setImovel(imovel);
 	    	locacao.setDataLocacaoFim(rs.getDate("datalocacaofim"));
@@ -264,9 +310,8 @@ public class DBUtils {
 	    	locacao.setFormaPagamento(rs.getString("formapagamento"));
 	    	locacao.setValorAnual(rs.getDouble("valoranual"));
 	    	locacao.setValorMensal(rs.getDouble("valormensal"));
-			return locacao;
 	    }
-	    return null;
+		return locacao;
 	}
 	
 	public static List<Object> queryImoveisLocacaoVenda(Connection conn, String tipoNegocio, String tipoImovel) throws SQLException {
@@ -274,10 +319,10 @@ public class DBUtils {
 		
 		switch (tipoImovel) {
 		case "ap":
-			sql += " WHERE TIPO = \"AP\"";
+			sql += " WHERE TIPO = 'AP'";
 			break;
 		case "ca":
-			sql = " WHERE TIPO = \"CA\"";
+			sql += " WHERE TIPO = 'CA'";
 			break;
 		default:
 			break;
@@ -292,20 +337,18 @@ public class DBUtils {
 	    	imovel.setIdimovel(rs.getInt("idimovel"));
 	    	imovel.setFotos(queryImovelFoto(conn, imovel));
 	    	imovel.setTipo(rs.getString("tipo"));
-	    	imovel.setDormitorios(rs.getInt("dormitorios"));
+	    	imovel.setQuartos(rs.getInt("quartos"));
 	    	imovel.setBanheiros(rs.getInt("banheiros"));
 	    	imovel.setSuites(rs.getInt("suites"));
 	    	imovel.setVagasGaragem(rs.getInt("vagasgaragem"));
 	    	imovel.setAreaConstruida(rs.getDouble("areaconstruida"));
 	    	imovel.setAreaTotal(rs.getDouble("areatotal"));
-	    	imovel.setValor(rs.getDouble("valor"));
 	    	imovel.setDescricao(rs.getString("descricao"));
 	    	imovel.setCidade(rs.getString("cidade"));
 	    	imovel.setBairro(rs.getString("bairro"));
 	    	imovel.setRua(rs.getString("rua"));
 	    	imovel.setNumero(rs.getString("numero"));
-	    	imovel.setObservacao(rs.getString("observacao"));
-	    	imovel.setStatus(rs.getString("status"));
+	    	imovel.setStatus(rs.getBoolean("status"));
 	    	
 	    	switch (rs.getString("tipo")) {
 			case "AP":
@@ -357,59 +400,64 @@ public class DBUtils {
 	    return imoveis;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public static <T extends Imovel> Apartamento queryFindApartamento(Connection conn, Imovel imovel) throws SQLException {
-		String sql = "SELECT * FROM APARTAMENTO WHERE IDIMOVEL = ? LIMIT 1";
+		String sql = "SELECT * FROM APARTAMENTO WHERE IDIMOVEL = "+ imovel.getIdimovel() +" LIMIT 1";
 		
 		PreparedStatement pstm = conn.prepareStatement(sql);
-		pstm.setInt(1, imovel.getIdimovel());
 		ResultSet rs = pstm.executeQuery();
 
-		Apartamento ap = new Apartamento();
+		Apartamento ap = null;
 		
 		if (rs.next()) {
+			ap = new Apartamento();
 			ap.setIdapartamento(rs.getInt("idapartamento"));
 			ap.setImovel(imovel);
 			ap.setBloco(rs.getString("bloco"));
 			ap.setAndar(rs.getInt("andar"));
 			ap.setNumeroAp(rs.getInt("numeroAp"));
 			ap.setSacada(rs.getBoolean("sacada"));
-			return ap;
 		}
-		return null;
+		return ap;
 	}
 	
 	public static <T extends Imovel> Casa queryFindCasa(Connection conn, Imovel imovel) throws SQLException {
-		String sql = "SELECT * FROM CASA WHERE IDIMOVEL = ? LIMIT 1";
+		String sql = "SELECT * FROM CASA WHERE IDIMOVEL = "+ imovel.getIdimovel() +" LIMIT 1";
 		
 		PreparedStatement pstm = conn.prepareStatement(sql);
-		pstm.setInt(1, imovel.getIdimovel());
 		ResultSet rs = pstm.executeQuery();
 		
-		Casa ca = new Casa();
+		Casa ca = null;
 		
 		if (rs.next()) {
+			ca = new Casa();
 			ca.setIdcasa(rs.getInt("idcasa"));
 			ca.setImovel(imovel);
 			ca.setLote(rs.getString("lote"));
 			ca.setQuadra(rs.getString("quadra"));
-			return ca;
 		}
-		return null;
+		return ca;
+	}
+	
+	public static Usuario queryResponsavelImovel(Connection conn, Integer idusuario) throws SQLException {
+		String sql = "SELECT * FROM USUARIO WHERE IDUSUARIO = ?";
+		
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    pstm.setInt(1, idusuario);
+	    ResultSet rs = pstm.executeQuery();
+
+    	Usuario responsavel = null;
+
+	    if (rs.next()) {
+	    	responsavel = new Usuario();
+	    	responsavel.setIdusuario(rs.getInt("idusuario"));
+	    	responsavel.setNome(rs.getString("nome"));
+	    	responsavel.setCpf(rs.getString("cpf"));
+	    	responsavel.setEmail(rs.getString("email"));
+	    	responsavel.setSenha(rs.getString("senha"));
+	    	responsavel.setObservacao(rs.getString("observacao"));
+	    	responsavel.setAtivo(rs.getBoolean("ativo"));
+	    }
+		return responsavel;
 	}
 	
 	public static List<ImovelFoto> queryImovelFoto(Connection conn, Imovel imovel) throws SQLException {
@@ -439,23 +487,22 @@ public class DBUtils {
 	    
 	    while (rs.next()) {
 	    	Imovel imovel = new Imovel();
+	    	imovel.setResponsavel(queryResponsavelImovel(conn, rs.getInt("idresponsavel")));
 	    	imovel.setIdimovel(rs.getInt("idimovel"));
 	    	imovel.setFotos(queryImovelFoto(conn, imovel));
 	    	imovel.setTipo(rs.getString("tipo"));
-	    	imovel.setDormitorios(rs.getInt("dormitorios"));
+	    	imovel.setQuartos(rs.getInt("quartos"));
 	    	imovel.setBanheiros(rs.getInt("banheiros"));
 	    	imovel.setSuites(rs.getInt("suites"));
 	    	imovel.setVagasGaragem(rs.getInt("vagasgaragem"));
 	    	imovel.setAreaConstruida(rs.getDouble("areaconstruida"));
 	    	imovel.setAreaTotal(rs.getDouble("areatotal"));
-	    	imovel.setValor(rs.getDouble("valor"));
 	    	imovel.setDescricao(rs.getString("descricao"));
 	    	imovel.setCidade(rs.getString("cidade"));
 	    	imovel.setBairro(rs.getString("bairro"));
 	    	imovel.setRua(rs.getString("rua"));
 	    	imovel.setNumero(rs.getString("numero"));
-	    	imovel.setObservacao(rs.getString("observacao"));
-	    	imovel.setStatus(rs.getString("status"));
+	    	imovel.setStatus(rs.getBoolean("status"));
 	    	
 	    	switch (rs.getString("tipo")) {
 			case "AP":
@@ -480,56 +527,97 @@ public class DBUtils {
 	    }
 	    return imoveis;
 	}
+	
+	public static Imovel queryFindImovelId(Connection conn, Integer idimovel) throws SQLException {
+		String sql = "SELECT * FROM IMOVEL WHERE IDIMOVEL = "+ idimovel +"";
+		
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    ResultSet rs = pstm.executeQuery();
+	    
+		Imovel imovel = null;
+	    
+	    if (rs.next()) {
+	    	imovel = new Imovel();
+	    	imovel.setIdimovel(rs.getInt("idimovel"));
+	    	imovel.setResponsavel(queryResponsavelImovel(conn, rs.getInt("idresponsavel")));
+	    	imovel.setFotos(queryImovelFoto(conn, imovel));
+	    	imovel.setTipo(rs.getString("tipo"));
+	    	imovel.setQuartos(rs.getInt("quartos"));
+	    	imovel.setBanheiros(rs.getInt("banheiros"));
+	    	imovel.setSuites(rs.getInt("suites"));
+	    	imovel.setVagasGaragem(rs.getInt("vagasgaragem"));
+	    	imovel.setAreaConstruida(rs.getDouble("areaconstruida"));
+	    	imovel.setAreaTotal(rs.getDouble("areatotal"));
+	    	imovel.setDescricao(rs.getString("descricao"));
+	    	imovel.setCidade(rs.getString("cidade"));
+	    	imovel.setBairro(rs.getString("bairro"));
+	    	imovel.setRua(rs.getString("rua"));
+	    	imovel.setNumero(rs.getString("numero"));
+	    	imovel.setStatus(rs.getBoolean("status"));
+	    }
+    	return imovel;
+	}
+	
+	public static Object queryImovel(Connection conn, Imovel imovel) throws SQLException {
+		Object retorno = null;
+	    
+		switch (imovel.getTipo()) {
+		case "AP":
+			Apartamento ap = queryFindApartamento(conn, imovel);
+			
+			retorno = queryFindLocacao(conn, ap) != null ? queryFindLocacao(conn, ap) : queryFindVenda(conn, ap);
+			break;
+		case "CA":
+			Casa ca = queryFindCasa(conn, imovel);
+			
+			retorno = queryFindLocacao(conn, ca) != null ? queryFindLocacao(conn, ca) : queryFindVenda(conn, ca);
+			break;
+		}
+    	return retorno;
+	}
+	
 
-  /*public static Product findProduct(Connection conn, String code) throws SQLException {
-    String sql = "Select a.Code, a.Name, a.Price from Product a where a.Code=?";
+	public static Usuario encontrarUsuario(Connection conn, String email, String senha) throws SQLException {
+	    String sql = "SELECT IDUSUARIO, NOME, CPF, EMAIL, SENHA, OBSERVACAO, ATIVO FROM USUARIO WHERE LOWER(EMAIL) = LOWER(?) AND SENHA = ?";
+	
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    pstm.setString(1, email);
+	    pstm.setString(2, senha);
+	    ResultSet rs = pstm.executeQuery();
 
-    PreparedStatement pstm = conn.prepareStatement(sql);
-    pstm.setString(1, code);
+	    if (rs.next()) {
+	    	Usuario usuario = new Usuario();
+	      	usuario.setIdusuario(rs.getInt("idusuario"));
+	      	usuario.setNome(rs.getString("nome"));
+	      	usuario.setCpf(rs.getString("cpf"));
+	      	usuario.setEmail(email);
+	      	usuario.setSenha(senha);
+	      	usuario.setObservacao(rs.getString("observacao"));
+	      	usuario.setAtivo(rs.getBoolean("ativo"));
+	      	return usuario;
+		}
+	    return null;
+	}
 
-    ResultSet rs = pstm.executeQuery();
-
-    while (rs.next()) {
-      String name = rs.getString("Name");
-      float price = rs.getFloat("Price");
-      Product product = new Product(code, name, price);
-      return product;
-    }
-    return null;
-  }
-
-  public static void updateProduct(Connection conn, Product product) throws SQLException {
-    String sql = "Update Product set Name =?, Price=? where Code=? ";
-
-    PreparedStatement pstm = conn.prepareStatement(sql);
-
-    pstm.setString(1, product.getName());
-    pstm.setFloat(2, product.getPrice());
-    pstm.setString(3, product.getCode());
-    pstm.executeUpdate();
-  }
-
-  public static void insertProduct(Connection conn, Product product) throws SQLException {
-    String sql = "Insert into Product(Code, Name,Price) values (?,?,?)";
-
-    PreparedStatement pstm = conn.prepareStatement(sql);
-
-    pstm.setString(1, product.getCode());
-    pstm.setString(2, product.getName());
-    pstm.setFloat(3, product.getPrice());
-
-    pstm.executeUpdate();
-  }
-
-  public static void deleteProduct(Connection conn, String code) throws SQLException {
-    String sql = "Delete from Product where Code= ?";
-
-    PreparedStatement pstm = conn.prepareStatement(sql);
-
-    pstm.setString(1, code);
-
-    pstm.executeUpdate();
-  }
-  */
-
+	public static Usuario encontrarUsuario(Connection conn, String email) throws SQLException {
+	    String sql = "SELECT IDUSUARIO, NOME, CPF, EMAIL, SENHA, OBSERVACAO, ATIVO FROM USUARIO WHERE LOWER(EMAIL) = LOWER(?)";
+	
+	    PreparedStatement pstm = conn.prepareStatement(sql);
+	    pstm.setString(1, email);
+	
+	    ResultSet rs = pstm.executeQuery();
+	
+	    if (rs.next()) {
+	    	Usuario usuario = new Usuario();
+	    	usuario.setIdusuario(rs.getInt("idusuario"));
+	    	usuario.setNome(rs.getString("nome"));
+	      	usuario.setCpf(rs.getString("cpf"));
+	      	usuario.setEmail(email);
+	      	usuario.setSenha(rs.getString("senha"));
+	      	usuario.setObservacao(rs.getString("observacao"));
+	      	usuario.setAtivo(rs.getBoolean("ativo"));
+	      	return usuario;
+		}
+	    return null;
+	}
 }
