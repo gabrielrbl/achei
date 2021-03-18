@@ -39,9 +39,7 @@ public class ListImoveis extends HttpServlet {
 	    request.setAttribute("errorString", errorString);
 	    request.setAttribute("imovelList", imovel);
 
-	  	RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userImoveis.jsp");
-
-	  	dispatcher.forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/userImoveis.jsp").forward(request, response);
 	}
 
 	@Override

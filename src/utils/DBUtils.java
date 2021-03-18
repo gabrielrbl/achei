@@ -223,7 +223,13 @@ public class DBUtils {
 			case "AP":
 				try {
 					Apartamento apartamento = queryFindApartamento(conn, imovel);
-					imoveis.add(apartamento);
+				
+					if (queryFindVenda(conn, apartamento) != null) {
+						imoveis.add(queryFindVenda(conn, apartamento));
+					}
+					if (queryFindLocacao(conn, apartamento) != null) {
+						imoveis.add(queryFindLocacao(conn, apartamento));
+					}
 				} catch (SQLException e) {
 			    	e.printStackTrace();
 			    	e.getMessage();
@@ -232,7 +238,13 @@ public class DBUtils {
 			case "CA":
 				try {
 					Casa casa = queryFindCasa(conn, imovel);
-					imoveis.add(casa);
+					
+					if (queryFindVenda(conn, casa) != null) {
+						imoveis.add(queryFindVenda(conn, casa));
+					}
+					if (queryFindLocacao(conn, casa) != null) {
+						imoveis.add(queryFindLocacao(conn, casa));
+					}
 				} catch (SQLException e) {
 			    	e.printStackTrace();
 			    	e.getMessage();

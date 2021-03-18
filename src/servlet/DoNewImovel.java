@@ -224,8 +224,19 @@ public class DoNewImovel extends HttpServlet {
 			e.printStackTrace();
 			e.getMessage();
 		}
+		
+		request.setAttribute("msgString", "Imóvel inserido com sucesso!");
 
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/newImovel.jsp");
-		dispatcher.forward(request, response);
+		List<Object> imovelList = null;
+
+	    try {
+	    	imovelList = DBUtils.queryFindImoveisUsuario(conn, MyUtils.getLoginedUser(request.getSession()));
+	    } catch (SQLException e) {
+	    	e.printStackTrace();
+	    	e.getMessage();
+	    }
+	    
+	    request.setAttribute("imovelList", imovelList);
+		request.getRequestDispatcher("/WEB-INF/views/userImoveis.jsp").forward(request, response);
 	}
 }
