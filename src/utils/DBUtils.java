@@ -6,6 +6,26 @@ import java.util.*;
 import model.*;
 
 public class DBUtils {
+	public static Integer insertUsuarioContato(Connection conn, UsuarioContato uc) throws SQLException {
+		String sql = "INSERT INTO USUARIOCONTATO(IDUSUARIO, TIPO, CONTATO) VALUES (?, ?, ?)";
+
+	    PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+	    pstm.setInt(1, uc.getUsuario().getIdusuario());
+	    pstm.setString(2, uc.getTipo());
+	    pstm.setString(3, uc.getContato());
+	    
+	    pstm.executeUpdate();
+	    
+	    Integer numero = null;
+	    
+	    ResultSet rs = pstm.getGeneratedKeys();
+	    
+	    if (rs != null && rs.next()) {
+	    	numero = rs.getInt(1);
+	    }
+	    return numero;
+	}
+	
 	public static Integer insertUsuario(Connection conn, Usuario usuario) throws SQLException {
 		String sql = "INSERT INTO USUARIO(NOME, EMAIL, SENHA, GENERO) VALUES (?, ?, ?, ?)";
 
@@ -97,6 +117,15 @@ public class DBUtils {
 	    }
 	    
 	    return numero;
+	}
+	
+	public static Boolean deleteUsuarioContato(Connection conn, Integer idusuariocontato) throws SQLException {
+		String sql = "DELETE FROM USUARIOCONTATO WHERE IDUSUARIOCONTATO = "+ idusuariocontato +"";
+		
+	    PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);	    
+	    Integer rowsAffected = pstm.executeUpdate();
+	    
+	    return (rowsAffected > 0) ? true : false;
 	}
 	
 	public static Boolean deleteImovel(Connection conn, Integer idimovel) throws SQLException {
@@ -597,6 +626,29 @@ public class DBUtils {
 			}
 	    }
 	    return imoveis;
+	}
+	
+	public static List<UsuarioContato> queryFindUsuarioContatosIdImovel(Connection conn, Integer idimovel) throws SQLException {
+		PreparedStatement pstm = conn.prepareStatement("SELECT * FROM IMOVEL WHERE IDIMOVEL = "+ idimovel +" LIMIT 1");
+		ResultSet rs = pstm.executeQuery();
+		
+		List<UsuarioContato> listuc = new ArrayList<UsuarioContato>();
+		
+		if (rs.next()) {
+			PreparedStatement pstm1 = conn.prepareStatement("SELECT * FROM USUARIOCONTATO WHERE IDUSUARIO = ?");
+			pstm1.setInt(1, rs.getInt("idresponsavel"));
+			ResultSet rs1 = pstm1.executeQuery();
+			
+			while (rs1.next()) {
+				UsuarioContato uc = new UsuarioContato();
+				uc.setIdusuariocontato(rs1.getInt("idusuariocontato"));
+				uc.setUsuario(queryResponsavelImovel(conn, rs1.getInt("idusuario")));
+				uc.setTipo(rs1.getString("tipo"));
+				uc.setContato(rs1.getString("contato"));
+				listuc.add(uc);
+			}
+		}
+	    return listuc;
 	}
 	
 	public static Imovel queryFindImovelId(Connection conn, Integer idimovel) throws SQLException {

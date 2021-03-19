@@ -34,9 +34,7 @@ public class HomeServlet extends HttpServlet {
 	    request.setAttribute("errorString", errorString);
 	    request.setAttribute("imovelList", imovel);
 
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp");
-
-		dispatcher.forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
 	}
 
 	@Override

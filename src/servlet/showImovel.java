@@ -1,12 +1,13 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import utils.*;
+import model.*;
 
 public class showImovel extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -22,16 +23,19 @@ public class showImovel extends HttpServlet {
 		Integer idimovel = Integer.parseInt(pathParts[1]);
 		
 		Object imovel = null;
+		List<UsuarioContato> responsavelContatos = null;
 
 		Connection conn = MyUtils.getStoredConnection(request);
 		
 		try {
 			imovel = DBUtils.queryImovel(conn, DBUtils.queryFindImovelId(conn, idimovel));
+			responsavelContatos = DBUtils.queryFindUsuarioContatosIdImovel(conn, idimovel);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		request.setAttribute("imovel", imovel);
+		request.setAttribute("responsavelContatos", responsavelContatos);
 		
 	    RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/showImovel.jsp");
 	    

@@ -77,10 +77,18 @@ public class Usuario {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
+	
+	public Boolean validarRegistro() {
+		return false;
+	}
 
 	@Override
 	public String toString() {
 		return "Usuario [idusuario=" + idusuario + ", nome=" + nome + ", genero=" + genero + ", email=" + email + ", senha="
 				+ senha + ", observacao=" + observacao + ", ativo=" + ativo + "]";
+	}
+
+	public Boolean validarRegistro(String registro) {
+		return null;
 	}
 }
