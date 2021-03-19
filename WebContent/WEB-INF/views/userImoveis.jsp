@@ -14,49 +14,46 @@
 		<c:out value="${fn:length(imovelList)}" /> resultados.
   	</div>
 	<div class="card-body">
-		<c:choose>
-		  	<c:when test="${empty imovelList}">VAZIO</c:when>
-	  		<c:otherwise>
-				<table class="table">
-					<thead class="thead-light">
+	  	<c:if test="${!empty imovelList}">
+			<table class="table">
+				<thead class="thead-light">
+					<tr>
+				    	<th scope="col">#</th>
+				      	<th scope="col">IMÓVEL</th>
+				      	<th scope="col">NEGÓCIO</th>
+				      	<th scope="col">LOCAL</th>
+				      	<th scope="col">AÇÕES</th>
+					</tr>
+				</thead>
+			  	<tbody>
+					<c:forEach var="imovel" items="${imovelList}">
+						<c:set var="im" value="${imovel.imovel.imovel}" />
+						<c:choose>
+							<c:when test="${imovel['class'].simpleName == 'Locacao'}"><c:set var="tipoNegocio" value="Locação" /></c:when>
+							<c:when test="${imovel['class'].simpleName == 'Venda'}"><c:set var="tipoNegocio" value="Venda" /></c:when>
+						</c:choose>
+						<c:set var="tipoImovelClass" value="${imovel.imovel['class'].simpleName}" />
 						<tr>
-					    	<th scope="col">#</th>
-					      	<th scope="col">IMÓVEL</th>
-					      	<th scope="col">NEGÓCIO</th>
-					      	<th scope="col">LOCAL</th>
-					      	<th scope="col">AÇÕES</th>
-						</tr>
-					</thead>
-				  	<tbody>
-						<c:forEach var="imovel" items="${imovelList}">
-							<c:set var="im" value="${imovel.imovel.imovel}" />
-							<c:choose>
-								<c:when test="${imovel['class'].simpleName == 'Locacao'}"><c:set var="tipoNegocio" value="Locação" /></c:when>
-								<c:when test="${imovel['class'].simpleName == 'Venda'}"><c:set var="tipoNegocio" value="Venda" /></c:when>
-							</c:choose>
-							<c:set var="tipoImovelClass" value="${imovel.imovel['class'].simpleName}" />
-							<tr>
-					      		<th scope="row">${im.idimovel}</th>
-						      	<td>${imovel.imovel['class'].simpleName}</td>
-						      	<td>${tipoNegocio}</td>
-						      	<td><span style="text-transform: capitalize;">${fn:toLowerCase(im.cidade)}, ${fn:toLowerCase(im.bairro)}, ${fn:toLowerCase(im.rua)}</span><c:if test="${im.numero != null}">, nº ${im.numero}</c:if></td>
-						      	<td>
-						      		<a href="${pageContext.request.contextPath}/imovel/${im.idimovel}" target="_blank">
-						      			<button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
-						      		</a>
-						      		<a href="#">
-			              				<button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
-		              				</a>
-		              				<a href="#" class="deletar" data-id="${im.idimovel}">
-			            				<button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-						      		</a>
-						      	</td>
-					    	</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-		  	</c:otherwise>
-		</c:choose>
+				      		<th scope="row">${im.idimovel}</th>
+					      	<td>${imovel.imovel['class'].simpleName}</td>
+					      	<td>${tipoNegocio}</td>
+					      	<td><span style="text-transform: capitalize;">${fn:toLowerCase(im.cidade)}, ${fn:toLowerCase(im.bairro)}, ${fn:toLowerCase(im.rua)}</span><c:if test="${im.numero != null}">, nº ${im.numero}</c:if></td>
+					      	<td>
+					      		<a href="${pageContext.request.contextPath}/imovel/${im.idimovel}" target="_blank">
+					      			<button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
+					      		</a>
+					      		<a href="#">
+		              				<button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
+	              				</a>
+	              				<a href="#" class="deletar" data-id="${im.idimovel}">
+		            				<button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+					      		</a>
+					      	</td>
+				    	</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</c:if>
 	</div>
 </div>
 

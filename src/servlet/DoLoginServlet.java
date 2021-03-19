@@ -1,15 +1,10 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
+import java.sql.*;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import utils.*;
 import model.Usuario;
 
@@ -58,9 +53,7 @@ public class DoLoginServlet extends HttpServlet {
 		if(hasError) {
 			request.setAttribute("errorString", errorString);
 
-			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/login.jsp");
-
-			dispatcher.forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
 		} else {
 			HttpSession session = request.getSession();
 			MyUtils.storeLoginedUser(session, usuario);

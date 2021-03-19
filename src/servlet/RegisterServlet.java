@@ -6,11 +6,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import utils.MyUtils;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/register")
+public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-  	public LoginServlet() {
+  	public RegisterServlet() {
   		super();
   	}
 
@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}
 
-		request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
   	}
 
   	@Override
