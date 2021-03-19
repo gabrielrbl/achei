@@ -3,7 +3,7 @@ package model;
 public class Usuario {	
 	private Integer idusuario;
 	private String nome;
-	private String cpf;
+	private String genero;
 	private String email;
 	private String senha;
 	private String observacao;
@@ -11,11 +11,11 @@ public class Usuario {
 
 	public Usuario() { }
 		
-	public Usuario(Integer idusuario, String nome, String cpf, String email, String senha, String observacao, boolean ativo) {
+	public Usuario(Integer idusuario, String nome, String genero, String email, String senha, String observacao, boolean ativo) {
 		super();
 		this.idusuario = idusuario;
 		this.nome = nome;
-		this.cpf = cpf;
+		this.genero = genero;
 		this.email = email;
 		this.senha = senha;
 		this.observacao = observacao;
@@ -38,12 +38,12 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getGenero() {
+		return genero;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
 
 	public String getEmail() {
@@ -80,7 +80,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [idusuario=" + idusuario + ", nome=" + nome + ", cpf=" + cpf + ", email=" + email + ", senha="
+		return "Usuario [idusuario=" + idusuario + ", nome=" + nome + ", genero=" + genero + ", email=" + email + ", senha="
 				+ senha + ", observacao=" + observacao + ", ativo=" + ativo + "]";
 	}
 }

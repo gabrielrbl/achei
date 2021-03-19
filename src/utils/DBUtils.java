@@ -5,7 +5,66 @@ import java.sql.Date;
 import java.util.*;
 import model.*;
 
-public class DBUtils {	
+public class DBUtils {
+	public static Integer insertUsuario(Connection conn, Usuario usuario) throws SQLException {
+		String sql = "INSERT INTO USUARIO(NOME, EMAIL, SENHA, GENERO) VALUES (?, ?, ?, ?)";
+
+	    PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+	    pstm.setString(1, usuario.getNome());
+	    pstm.setString(2, usuario.getEmail());
+	    pstm.setString(3, usuario.getSenha());
+	    pstm.setString(4, usuario.getGenero());
+	    
+	    pstm.executeUpdate();
+	    
+	    Integer numero = null;
+	    
+	    ResultSet rs = pstm.getGeneratedKeys();
+	    
+	    if (rs != null && rs.next()) {
+	    	numero = rs.getInt(1);
+	    }
+	    return numero;
+	}
+	
+	public static Integer insertUsuarioPF(Connection conn, UsuarioPessoaFisica usuariopf) throws SQLException {
+		String sql = "INSERT INTO USUARIOPESSOAFISICA(IDUSUARIO, CPF) VALUES (?, ?)";
+
+	    PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+	    pstm.setInt(1, usuariopf.getUsuario().getIdusuario());
+	    pstm.setString(2, usuariopf.getCpf());
+	    
+	    pstm.executeUpdate();
+	    
+	    Integer numero = null;
+	    
+	    ResultSet rs = pstm.getGeneratedKeys();
+	    
+	    if (rs != null && rs.next()) {
+	    	numero = rs.getInt(1);
+	    }
+	    return numero;
+	}
+	
+	public static Integer insertUsuarioPJ(Connection conn, UsuarioPessoaJuridica usuariopj) throws SQLException {
+		String sql = "INSERT INTO USUARIOPESSOAJURIDICA(IDUSUARIO, CNPJ) VALUES (?, ?)";
+
+	    PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+	    pstm.setInt(1, usuariopj.getUsuario().getIdusuario());
+	    pstm.setString(2, usuariopj.getCnpj());
+	    
+	    pstm.executeUpdate();
+	    
+	    Integer numero = null;
+	    
+	    ResultSet rs = pstm.getGeneratedKeys();
+	    
+	    if (rs != null && rs.next()) {
+	    	numero = rs.getInt(1);
+	    }
+	    return numero;
+	}
+
 	public static Integer insertImovel(Connection conn, Imovel imovel) throws SQLException {
 		String sql = "INSERT INTO IMOVEL(IDRESPONSAVEL, TIPO, QUARTOS, BANHEIROS, SUITES, "
 				   + "VAGASGARAGEM, AREACONSTRUIDA, AREATOTAL, DESCRICAO, CIDADE, BAIRRO, "
@@ -463,7 +522,7 @@ public class DBUtils {
 	    	responsavel = new Usuario();
 	    	responsavel.setIdusuario(rs.getInt("idusuario"));
 	    	responsavel.setNome(rs.getString("nome"));
-	    	responsavel.setCpf(rs.getString("cpf"));
+	    	responsavel.setGenero(rs.getString("genero"));
 	    	responsavel.setEmail(rs.getString("email"));
 	    	responsavel.setSenha(rs.getString("senha"));
 	    	responsavel.setObservacao(rs.getString("observacao"));
@@ -590,7 +649,7 @@ public class DBUtils {
 	
 
 	public static Usuario encontrarUsuario(Connection conn, String email, String senha) throws SQLException {
-	    String sql = "SELECT IDUSUARIO, NOME, CPF, EMAIL, SENHA, OBSERVACAO, ATIVO FROM USUARIO WHERE LOWER(EMAIL) = LOWER(?) AND SENHA = ?";
+	    String sql = "SELECT IDUSUARIO, NOME, GENERO, EMAIL, SENHA, OBSERVACAO, ATIVO FROM USUARIO WHERE LOWER(EMAIL) = LOWER(?) AND SENHA = ?";
 	
 	    PreparedStatement pstm = conn.prepareStatement(sql);
 	    pstm.setString(1, email);
@@ -601,7 +660,7 @@ public class DBUtils {
 	    	Usuario usuario = new Usuario();
 	      	usuario.setIdusuario(rs.getInt("idusuario"));
 	      	usuario.setNome(rs.getString("nome"));
-	      	usuario.setCpf(rs.getString("cpf"));
+	      	usuario.setGenero(rs.getString("genero"));
 	      	usuario.setEmail(email);
 	      	usuario.setSenha(senha);
 	      	usuario.setObservacao(rs.getString("observacao"));
@@ -612,7 +671,7 @@ public class DBUtils {
 	}
 
 	public static Usuario encontrarUsuario(Connection conn, String email) throws SQLException {
-	    String sql = "SELECT IDUSUARIO, NOME, CPF, EMAIL, SENHA, OBSERVACAO, ATIVO FROM USUARIO WHERE LOWER(EMAIL) = LOWER(?)";
+	    String sql = "SELECT IDUSUARIO, NOME, GENERO, EMAIL, SENHA, OBSERVACAO, ATIVO FROM USUARIO WHERE LOWER(EMAIL) = LOWER(?)";
 	
 	    PreparedStatement pstm = conn.prepareStatement(sql);
 	    pstm.setString(1, email);
@@ -623,7 +682,7 @@ public class DBUtils {
 	    	Usuario usuario = new Usuario();
 	    	usuario.setIdusuario(rs.getInt("idusuario"));
 	    	usuario.setNome(rs.getString("nome"));
-	      	usuario.setCpf(rs.getString("cpf"));
+	      	usuario.setGenero(rs.getString("genero"));
 	      	usuario.setEmail(email);
 	      	usuario.setSenha(rs.getString("senha"));
 	      	usuario.setObservacao(rs.getString("observacao"));

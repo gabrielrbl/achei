@@ -21,9 +21,7 @@ public class AddImovel extends HttpServlet {
 			return;
 		}
 
-    	RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/newImovel.jsp");
-
-		dispatcher.forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/newImovel.jsp").forward(request, response);
 	}
     
     @Override

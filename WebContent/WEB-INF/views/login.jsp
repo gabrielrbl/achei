@@ -2,17 +2,13 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<c:if test="${!empty usuarioLogado}">
-	<jsp:forward page="home.jsp" />
-</c:if>
-
 <t:wrapper title="Login">
 	<p>${errorString}</p>
 
 	<aside class="col-sm-4">
 		<div class="card">
 			<article class="card-body">
-			<a href="#" class="float-right btn btn-outline-primary">Cadastrar</a>
+			<a href="${pageContext.request.contextPath}/register" class="float-right btn btn-outline-primary">Cadastrar</a>
 			<h4 class="card-title mb-4 mt-1">Entrar</h4>
 				<form method="POST" action="doLogin">
 			    <div class="form-group">

@@ -102,6 +102,8 @@ body{
 			<div class="col-md-8">
             	<div class="card mb-3">
                 	<div class="card-body">
+						<h5 class="d-flex align-items-center mb-3"> <i class="fas fa-id-card-alt"></i>Contatos</h5>
+						<hr>
                   		<c:forEach var="contato" items="${usuarioContatoList}" varStatus="loop">
 							<c:if test="${loop.index != 0}"><hr></c:if>
 							<div class="row">
