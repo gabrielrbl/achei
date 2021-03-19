@@ -1,75 +1,184 @@
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <t:wrapper title="Perfil">
-<!-- LISTS -->
-<style>
-#Lists h2, h5 { margin-top: 0; margin-bottom: .5rem; }
-#Lists h2, h5, .h2, .h5 { font-family: inherit; font-weight: 600; line-height: 1.5; margin-bottom: .5rem; color: #32325d; }
-#Lists h2, .h2 { font-size: 1.25rem; }
-#Lists h5, .h5 { font-size: .8125rem; }
-#Lists .row { display: flex; margin-right: -15px; margin-left: -15px; flex-wrap: wrap; }
-#Lists .col, .col-auto { position: relative; width: 100%; min-height: 1px; padding-right: 15px; padding-left: 15px; }
-#Lists .col { max-width: 100%; flex-basis: 0; flex-grow: 1; }
-#Lists .col-auto { width: auto; max-width: none; flex: 0 0 auto; }
-#Lists .bg-danger { background-color: #f5365c !important; }
-#Lists .rounded-circle { border-radius: 50% !important; }
-#Lists .shadow { box-shadow: 0 0 2rem 0 rgba(136, 152, 170, .15) !important; }
-#Lists .text-uppercase { text-transform: uppercase !important; }
-#Lists .text-white { color: #fff !important; }
-#Lists .text-muted { color: #8898aa !important; }
-#Lists [class*='shadow'] { transition: all .15s ease; }
-#Lists .icon { width: 3rem; height: 3rem; }
-#Lists .icon i { font-size: 2.25rem; }
-#Lists .icon-shape { display: inline-flex; padding: 12px; text-align: center; border-radius: 50%; align-items: center; justify-content: center; }
-#Lists .icon-shape i { font-size: 1.25rem; }
+	<!-- LISTS -->
+	<style>
+#Lists h2, h5 {
+	margin-top: 0;
+	margin-bottom: .5rem;
+}
+
+#Lists h2, h5, .h2, .h5 {
+	font-family: inherit;
+	font-weight: 600;
+	line-height: 1.5;
+	margin-bottom: .5rem;
+	color: #32325d;
+}
+
+#Lists h2, .h2 {
+	font-size: 1.25rem;
+}
+
+#Lists h5, .h5 {
+	font-size: .8125rem;
+}
+
+#Lists .row {
+	display: flex;
+	margin-right: -15px;
+	margin-left: -15px;
+	flex-wrap: wrap;
+}
+
+#Lists .col, .col-auto {
+	position: relative;
+	width: 100%;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+#Lists .col {
+	max-width: 100%;
+	flex-basis: 0;
+	flex-grow: 1;
+}
+
+#Lists .col-auto {
+	width: auto;
+	max-width: none;
+	flex: 0 0 auto;
+}
+
+#Lists .bg-danger {
+	background-color: #f5365c !important;
+}
+
+#Lists .rounded-circle {
+	border-radius: 50% !important;
+}
+
+#Lists .shadow {
+	box-shadow: 0 0 2rem 0 rgba(136, 152, 170, .15) !important;
+}
+
+#Lists .text-uppercase {
+	text-transform: uppercase !important;
+}
+
+#Lists .text-white {
+	color: #fff !important;
+}
+
+#Lists .text-muted {
+	color: #8898aa !important;
+}
+
+#Lists [class*='shadow'] {
+	transition: all .15s ease;
+}
+
+#Lists .icon {
+	width: 3rem;
+	height: 3rem;
+}
+
+#Lists .icon i {
+	font-size: 2.25rem;
+}
+
+#Lists .icon-shape {
+	display: inline-flex;
+	padding: 12px;
+	text-align: center;
+	border-radius: 50%;
+	align-items: center;
+	justify-content: center;
+}
+
+#Lists .icon-shape i {
+	font-size: 1.25rem;
+}
 </style>
 
 
-<!-- MODAL  -->
-<style>
-#insertContatoModal textarea[name="contato"] { resize: none; }
-#insertContatoModal #tipo { height: 45px }
-#insertContatoModal #contato { height: 120px }
-#insertContatoModal input.input-box { background-color: #616161; border: #616161; color: #BDBDBD }
-#insertContatoModal input.input-box:focus { background-color: #000000; color: #BDBDBD }
-#insertContatoModal .rm-border:focus { border-color: inherit; -webkit-box-shadow: none; box-shadow: none }
-#insertContatoModal .form-control::-webkit-input-placeholder { color: #9E9E9E }
-#insertContatoModal ::-moz-placeholder { color: #9E9E9E !important }
+	<!-- MODAL  -->
+	<style>
+#insertContatoModal textarea[name="contato"] {
+	resize: none;
+}
+
+#insertContatoModal #tipo {
+	height: 45px
+}
+
+#insertContatoModal #contato {
+	height: 120px
+}
+
+#insertContatoModal input.input-box {
+	background-color: #616161;
+	border: #616161;
+	color: #BDBDBD
+}
+
+#insertContatoModal input.input-box:focus {
+	background-color: #000000;
+	color: #BDBDBD
+}
+
+#insertContatoModal .rm-border:focus {
+	border-color: inherit;
+	-webkit-box-shadow: none;
+	box-shadow: none
+}
+
+#insertContatoModal .form-control::-webkit-input-placeholder {
+	color: #9E9E9E
+}
+
+#insertContatoModal ::-moz-placeholder {
+	color: #9E9E9E !important
+}
 </style>
 
-<div class="container">
-	<div class="main-body">
-		<nav aria-label="breadcrumb" class="main-breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/">Início</a></li>
-				<li class="breadcrumb-item"><a href="javascript:void(0)">Usuário</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Perfil</li>
-            </ol>
-		</nav>
-    
-		<div class="row gutters-sm">
-			<div class="col-md-4 mb-3">
-            	<div class="card">
-                	<div class="card-body">
-                  		<div class="d-flex flex-column align-items-center text-center">
-                    		<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
-                    		<div class="mt-3">
-	                      		<h4 style="text-transform: capitalize;">${fn:toLowerCase(usuarioLogado.nome)}</h4>
-	                      		<p class="text-muted font-size-sm">${usuarioLogado.email}</p>
-	                      		<button class="btn btn-primary">Editar</button>
-	                      		<!-- 
+	<div class="container">
+		<div class="main-body">
+			<nav aria-label="breadcrumb" class="main-breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a
+						href="${pageContext.request.contextPath}/">Início</a></li>
+					<li class="breadcrumb-item"><a href="javascript:void(0)">Usuário</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Perfil</li>
+				</ol>
+			</nav>
+
+			<div class="row gutters-sm">
+				<div class="col-md-4 mb-3">
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex flex-column align-items-center text-center">
+								<img src="https://bootdey.com/img/Content/avatar/avatar7.png"
+									alt="Admin" class="rounded-circle" width="150">
+								<div class="mt-3">
+									<h4 style="text-transform: capitalize;">${fn:toLowerCase(usuarioLogado.nome)}</h4>
+									<p class="text-muted font-size-sm">${usuarioLogado.email}</p>
+									<button class="btn btn-primary">Editar</button>
+									<!-- 
 	                      		<p class="text-secondary mb-1">Full Stack Developer</p>
 	                      		<p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
 	                      		<button class="btn btn-primary">Follow</button>
 	                      		<button class="btn btn-outline-primary">Mensagem</button> -->
-	                    	</div>
-                  		</div>
-                	</div>
-              	</div>
-              <!-- 
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 
               <div class="card mt-3">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
@@ -95,59 +204,70 @@
                 </ul>
               </div>
                 -->
-			</div>
-			<div class="col-md-8">
-            	<div class="card mb-3">
-					<div class="card-header d-flex flex-row justify-content-between pmd-card-border">
-						<div>
-							<h5 class="card-title">Contatos</h5>
+				</div>
+				<div class="col-md-8">
+					<div class="card mb-3">
+						<div
+							class="card-header d-flex flex-row justify-content-between pmd-card-border">
+							<div>
+								<h5 class="card-title">Contatos</h5>
+							</div>
+							<div>
+								<button
+									class="btn btn-sm pmd-btn-fab pmd-btn-flat pmd-ripple-effect btn-primary"
+									type="button" data-toggle="modal"
+									data-target="#insertContatoModal">
+									<i class="fas fa-plus"></i>
+								</button>
+							</div>
 						</div>
-						<div>
-							<button class="btn btn-sm pmd-btn-fab pmd-btn-flat pmd-ripple-effect btn-primary" type="button" data-toggle="modal" data-target="#insertContatoModal">
-								<i class="fas fa-plus"></i>
-							</button>
+						<div class="card-body">
+							<c:forEach var="contato" items="${usuarioContatoList}"
+								varStatus="loop">
+								<c:if test="${loop.index != 0}">
+									<hr>
+								</c:if>
+								<div class="row">
+									<div class="col-sm-3">
+										<h6 class="mb-0">${contato.tipo}</h6>
+									</div>
+									<div class="col-sm-8 text-secondary">${contato.contato}</div>
+									<div class="col-sm-1">
+										<button
+											class="btn btn-sm pmd-btn-fab pmd-btn-flat pmd-ripple-effect btn-danger deletar"
+											type="button" data-id="${contato.idusuariocontato}">
+											<i class="fas fa-minus"></i>
+										</button>
+									</div>
+								</div>
+							</c:forEach>
 						</div>
 					</div>
-                	<div class="card-body">
-                  		<c:forEach var="contato" items="${usuarioContatoList}" varStatus="loop">
-							<c:if test="${loop.index != 0}"><hr></c:if>
+
+					<div class="card" id="Lists">
+						<div class="card-body">
 							<div class="row">
-		                    	<div class="col-sm-3">
-		                    		<h6 class="mb-0">${contato.tipo}</h6>
-		                    	</div>
-		                    	<div class="col-sm-8 text-secondary">${contato.contato}</div>
-		                    	<div class="col-sm-1">
-			                    	<button class="btn btn-sm pmd-btn-fab pmd-btn-flat pmd-ripple-effect btn-danger deletar" type="button" data-id="${contato.idusuariocontato}">
-										<i class="fas fa-minus"></i>
-									</button>
+								<div class="col">
+									<h5 class="card-title text-uppercase text-muted mb-0">Imóveis
+										cadastrados</h5>
+									<span class="h2 font-weight-bold mb-0">${fn:length(imoveisUsuario)}</span>
 								</div>
-		                  	</div>
-                  		</c:forEach>
-                	</div>
-				</div>
-				
-				<div class="card" id="Lists">
-					<div class="card-body">
-						<div class="row">
-							<div class="col">
-								<h5 class="card-title text-uppercase text-muted mb-0">Imóveis cadastrados</h5>
-                      			<span class="h2 font-weight-bold mb-0">${fn:length(imoveisUsuario)}</span>
-                    		</div>
-                    		<div class="col-auto">
-                      			<div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                        			<i class="fas fa-chart-bar"></i>
-                      			</div>
-                    		</div>
-                  		</div>
-                  		<!-- <p class="mt-3 mb-0 text-muted text-sm">
+								<div class="col-auto">
+									<div
+										class="icon icon-shape bg-danger text-white rounded-circle shadow">
+										<i class="fas fa-chart-bar"></i>
+									</div>
+								</div>
+							</div>
+							<!-- <p class="mt-3 mb-0 text-muted text-sm">
                     			<span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
                     			<span class="text-nowrap">Since last month</span>
                   			 </p> -->
+						</div>
 					</div>
 				</div>
-			</div>
-				
-				
+
+
 				<!-- <div class="row gutters-sm">
 					<div class="col-sm-6 mb-3">
 						<div class="card h-100">
@@ -213,76 +333,89 @@
                     		</div>
                   		</div>
                 	</div> -->
-                	
-                	
-                	
-					<div class="modal fade" id="insertContatoModal" tabindex="-1" role="dialog" aria-labelledby="insertContatoModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered" role="document">
-							<div class="modal-content" style="background: #212529; color: #ffffff;">
-					     		<div class="modal-header">
-					        		<h5 class="modal-title" id="insertContatoModalLabel">Inserir novo contato</h5>
-				        			<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-				          				<span aria-hidden="true">&times;</span>
-				        			</button>
-					      		</div>
-					      		<div class="modal-body" style="background: #212529;">
-						      		<form method="POST" id="newContact" action="doNewContact">
-				                        <div class="form-group row mb-3">
-				                            <div class="col-md-12 mb-0">
-				                                <p class="mb-1">Tipo de contato</p>
-				                                <input id="tipo" type="text" placeholder="Informe o tipo de contato" name="tipo" class="form-control input-box rm-border" required />
-				                            </div>
-				                        </div>
-				                        <div class="form-group row">
-				                            <div class="col-md-12 mb-2">
-				                                <p class="mb-1">Contato</p>
-				                                <input id="contato" type="text" placeholder="Informe o contato" name="contato" class="form-control input-box rm-border" required />
-				                            </div>
-				                        </div>
-				                        <div class="form-group row justify-content-center mb-0">
-				                            <div class="col-md-12 px-3">
-				                            	<input type="submit" value="Inserir" class="btn btn-block btn-primary rm-border" />
-				                            </div>
-				                        </div>
-			                        </form>
-					      		</div>
-					      		<div class="modal-footer">
-					        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-					      		</div>
-					    	</div>
-					  	</div>
+
+
+
+				<div class="modal fade" id="insertContatoModal" tabindex="-1"
+					role="dialog" aria-labelledby="insertContatoModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content"
+							style="background: #212529; color: #ffffff;">
+							<div class="modal-header">
+								<h5 class="modal-title" id="insertContatoModalLabel">Inserir
+									novo contato</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Fechar">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body" style="background: #212529;">
+								<form method="POST" id="newContact" action="doNewContact">
+									<div class="form-group row mb-3">
+										<div class="col-md-12 mb-0">
+											<p class="mb-1">Tipo de contato</p>
+											<input id="tipo" type="text"
+												placeholder="Informe o tipo de contato" name="tipo"
+												class="form-control input-box rm-border" required />
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-md-12 mb-2">
+											<p class="mb-1">Contato</p>
+											<input id="contato" type="text"
+												placeholder="Informe o contato" name="contato"
+												class="form-control input-box rm-border" required />
+										</div>
+									</div>
+									<div class="form-group row justify-content-center mb-0">
+										<div class="col-md-12 px-3">
+											<input type="submit" value="Inserir"
+												class="btn btn-block btn-primary rm-border" />
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Fechar</button>
+							</div>
+						</div>
 					</div>
-					
-					<div class="modal fade" id="removeContatoModal" tabindex="-1" role="dialog" aria-labelledby="removeContatoModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-					        		<h5 class="modal-title" id="removeContatoModalLabel">Remover Contato</h5>
-					        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					          			<span aria-hidden="true">&times;</span>
-					        		</button>
-					      		</div>
-					      		<div class="modal-body">
-									Tem certeza que deseja remover o Contato #<span class="idContatoremove"></span>?
-					      		</div>
-					      		<div class="modal-footer">
-					      			<form id="formDelete" action="DeleteContato">
-					      				<input type="hidden" id="idUsuarioContato" name="idUsuarioContato" />
-					      				<button type="button" class="btn btn-danger btn-primary">Excluir</button>
-					   				</form>
-					        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-					      		</div>
-					    	</div>
-					  	</div>
+				</div>
+
+				<div class="modal fade" id="removeContatoModal" tabindex="-1"
+					role="dialog" aria-labelledby="removeContatoModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="removeContatoModalLabel">Remover
+									Contato</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								Tem certeza que deseja remover o Contato #<span
+									class="idContatoremove"></span>?
+							</div>
+							<div class="modal-footer">
+								<form id="formDelete" action="DeleteContato">
+									<input type="hidden" id="idUsuarioContato"
+										name="idUsuarioContato" />
+									<button type="button" class="btn btn-danger btn-primary">Excluir</button>
+								</form>
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Fechar</button>
+							</div>
+						</div>
 					</div>
-					
-					
-              	</div>
-            </div>
+				</div>
 		</div>
 	</div>
 </div>
-
 <script>
 $(document).ready(function(){
 	$("#newContact").on("submit", function(){
