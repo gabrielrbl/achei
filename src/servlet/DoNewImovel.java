@@ -60,7 +60,7 @@ public class DoNewImovel extends HttpServlet {
 		
 		switch (tipoImovel) {
 		case "AP":
-			bloco = request.getParameter("descricao");
+			bloco = request.getParameter("bloco");
 			andar = Integer.parseInt(request.getParameter("andar"));
 			numeroAp = Integer.parseInt(request.getParameter("numeroAp"));
 			sacada = Boolean.valueOf(request.getParameter("sacada") != null);

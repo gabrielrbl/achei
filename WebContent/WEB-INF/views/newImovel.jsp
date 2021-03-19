@@ -37,7 +37,7 @@ $(document).ready(function(){
 		case "AP":
 			dadosImovel.html("DADOS DO APARTAMENTO");
 			
-			$("#ImovelApartamento :input").attr("required", "req");
+			$("#ImovelApartamento :input"):not([type='checkbox']).attr("required", "req");
 			$("#ImovelCasa :input").removeAttr("required");
 			
 			divImovel.css("display", "block");
@@ -294,7 +294,7 @@ $(document).ready(function(){
 							</div>
 							<div class="form-row">
 							  	<div class="form-group col-md-4">
-								    <label for="valorVenda">Valor mensal</label>
+								    <label for="valorVenda">Valor de venda</label>
 								    <input type="number" name="valorVenda" class="form-control" id="valorVenda" />
 							  	</div>
 								<div class="form-group col-md-4">
