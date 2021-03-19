@@ -7,8 +7,8 @@ h2 {
 }
 
 .container {
-  max-width: 700px;
-  padding: 0 20px;
+	max-width: 700px;
+	padding: 0 20px;
 }
 
 .site-name {
@@ -19,14 +19,14 @@ h2 {
 .navbar {
 	padding: 20px 40px;
 	font-size: .9rem;
-
 }
+
 .nav-link {
 	text-transform: uppercase;
 }
 
 .header {
-    padding-top: 2rem;
+	padding-top: 2rem;
 }
 
 .btn-submit {
