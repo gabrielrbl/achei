@@ -27,20 +27,21 @@ public class ProfileServlet extends HttpServlet {
 		}
 		
 		List<UsuarioContato> usuarioContatoList = new ArrayList<UsuarioContato>();
+		List<Object> imoveisUsuario = new ArrayList<Object>();
 
 		Connection conn = MyUtils.getStoredConnection(request);
 		
 		try {
 			usuarioContatoList = DBUtils.queryFindUsuarioContato(conn, MyUtils.getLoginedUser(request.getSession()));
+			imoveisUsuario = DBUtils.queryFindImoveisUsuario(conn, MyUtils.getLoginedUser(request.getSession()));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		request.setAttribute("usuarioContatoList", usuarioContatoList);
-	    
-	    RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/profile.jsp");
-	    
-	    dispatcher.forward(request, response);
+		request.setAttribute("imoveisUsuario", imoveisUsuario);
+
+		request.getRequestDispatcher("/WEB-INF/views/profile.jsp").forward(request, response);
 	}
 
 	@Override

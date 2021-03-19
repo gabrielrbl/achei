@@ -237,6 +237,7 @@ public class DoNewImovel extends HttpServlet {
 	    }
 	    
 	    request.setAttribute("imovelList", imovelList);
+
 		request.getRequestDispatcher("/WEB-INF/views/userImoveis.jsp").forward(request, response);
 	}
 }

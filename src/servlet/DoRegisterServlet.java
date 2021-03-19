@@ -72,8 +72,14 @@ public class DoRegisterServlet extends HttpServlet {
 					
 					UsuarioPessoaFisica usuarioPF = new UsuarioPessoaFisica();
 					usuarioPF.setUsuario(usuario);
-					usuarioPF.setCpf(cpfPF);
-					usuarioPF.setIdusuariopessoafisica(DBUtils.insertUsuarioPF(conn, usuarioPF));
+					
+					if (!usuarioPF.validarRegistro(cpfPF)) {
+						hasError = true;
+						errorString = "CPF digitado não é válido!";
+					} else {
+						usuarioPF.setCpf(cpfPF);
+						usuarioPF.setIdusuariopessoafisica(DBUtils.insertUsuarioPF(conn, usuarioPF));
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -104,8 +110,14 @@ public class DoRegisterServlet extends HttpServlet {
 					
 					UsuarioPessoaJuridica usuarioPJ = new UsuarioPessoaJuridica();
 					usuarioPJ.setUsuario(usuario);
-					usuarioPJ.setCnpj(cnpjPJ);
-					usuarioPJ.setIdusuariopessoajuridica(DBUtils.insertUsuarioPJ(conn, usuarioPJ));
+					
+					if (!usuarioPJ.validarRegistro(cnpjPJ)) {
+						hasError = true;
+						errorString = "CNPJ digitado não é válido!";
+					} else {
+						usuarioPJ.setCnpj(cnpjPJ);
+						usuarioPJ.setIdusuariopessoajuridica(DBUtils.insertUsuarioPJ(conn, usuarioPJ));
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

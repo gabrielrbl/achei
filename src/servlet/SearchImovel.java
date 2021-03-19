@@ -3,8 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import utils.*;
@@ -34,9 +33,8 @@ public class SearchImovel extends HttpServlet {
 		}
 
 		request.setAttribute("imovelList", imovel);
-	
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/imoveis.jsp");
-		dispatcher.forward(request, response);
+
+		request.getRequestDispatcher("/WEB-INF/views/imoveis.jsp").forward(request, response);
 	}
 
     @Override
